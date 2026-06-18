@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="VIMIGO for AI Team — customer onboarding portal. Complete your pre-work before class: profile, company AI readiness, and your 3 AI use cases." />
+<meta name="robots" content="noindex" />
 <title>VIMIGO for AI Team — 客户启动门户 / Onboarding Portal</title>
 <style>
   :root{
@@ -159,6 +161,9 @@
   .navrow{display:flex;justify-content:space-between;margin-top:14px;font-size:13px}
   .navrow a{cursor:pointer;color:var(--muted);text-decoration:none}
   .navrow a:hover{color:var(--ink)}
+  .navbtn{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:4px 6px;font-family:inherit}
+  .navbtn:hover{color:var(--ink)}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
   footer.foot{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding:20px;border-top:1px solid var(--line)}
   .editnote{background:var(--warn-bg);border:1px dashed color-mix(in srgb,var(--warn) 45%,transparent);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:12px;margin:22px 0 0}
 
@@ -219,6 +224,7 @@
 
 <script>
 const ACCESS_CODE = "vimigoAI2026";
+const WHATSAPP_URL = "https://wa.me/60123456789"; // ← replace with your CSM/admin WhatsApp number or group invite
 
 const T = {
   zh:{ brandSub:"for AI Team · 启动门户", complete:"此部分我明白了",
@@ -459,7 +465,7 @@ const SECTIONS = [
       {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"【占位】有 30 天落地跟进。详见“课后落地”。",en:"[Placeholder] Yes — a 30-day follow-up. See 'After Class'."}}
     ]},
     {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
-    {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:"#"}
+    {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:WHATSAPP_URL}
   ]},
 
 { id:"after", icon:"🚀", nav:{zh:"课后落地",en:"After Class"},
@@ -524,8 +530,13 @@ function renderNav(){
     const done=state.done.includes(i);
     const el=document.createElement("div");
     el.className="nav-item"+(i===state.current?" active":"")+(done?" done":"");
+    el.setAttribute("role","button"); el.tabIndex=0;
+    if(i===state.current) el.setAttribute("aria-current","step");
+    el.setAttribute("aria-label", L(s.nav)+(done?" (completed)":""));
     el.innerHTML=`<span class="nav-num">${done?"✓":(i+1)}</span><span class="nav-lbl">${L(s.nav)}</span>`;
-    el.onclick=()=>{ state.current=i; closeNav(); save(); renderAll(); window.scrollTo({top:0,behavior:"smooth"}); };
+    const go=()=>{ state.current=i; closeNav(); save(); renderAll(); window.scrollTo({top:0,behavior:"smooth"}); };
+    el.onclick=go;
+    el.onkeydown=(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } };
     nav.appendChild(el);
   });
 }
@@ -581,7 +592,7 @@ function renderBlock(b, si){
       const cs=state.checks[si]||[];
       let h=`<div class="card">`;
       b.items.forEach((it,idx)=>{ const on=cs.includes(idx);
-        h+=`<div class="chk ${on?"on":""}" data-chk="${si}" data-idx="${idx}"><span class="b">${on?"✓":""}</span><span>${L(it)}</span></div>`; });
+        h+=`<div class="chk ${on?"on":""}" role="checkbox" tabindex="0" aria-checked="${on}" data-chk="${si}" data-idx="${idx}"><span class="b">${on?"✓":""}</span><span>${L(it)}</span></div>`; });
       return h+`</div>`;
     }
     case "days":{
@@ -633,19 +644,23 @@ function renderContent(){
   const done=state.done.includes(i);
   h+=`<button class="cta ${done?"done":""}" id="ctaBtn">${done? t().completed : "✓ "+t().complete}</button>`;
   h+=`<div class="navrow">
-      <a data-nav="prev" style="${i===0?"visibility:hidden":""}">${t().prev}</a>
-      <a data-nav="next" style="${i===SECTIONS.length-1?"visibility:hidden":""}">${t().next}</a></div>`;
+      <button class="navbtn" data-nav="prev" style="${i===0?"visibility:hidden":""}">${t().prev}</button>
+      <button class="navbtn" data-nav="next" style="${i===SECTIONS.length-1?"visibility:hidden":""}">${t().next}</button></div>`;
   $("#content").innerHTML=h;
   $("#editNote").textContent=t().editNote;
   bindContent();
 }
 function bindContent(){
   const i=state.current;
-  document.querySelectorAll("[data-chk]").forEach(c=>c.onclick=()=>{
-    const si=+c.dataset.chk, idx=+c.dataset.idx;
-    const arr=state.checks[si]||(state.checks[si]=[]);
-    const p=arr.indexOf(idx); if(p>=0)arr.splice(p,1); else arr.push(idx);
-    save(); renderContent();
+  document.querySelectorAll("[data-chk]").forEach(c=>{
+    const toggle=()=>{
+      const si=+c.dataset.chk, idx=+c.dataset.idx;
+      const arr=state.checks[si]||(state.checks[si]=[]);
+      const p=arr.indexOf(idx); if(p>=0)arr.splice(p,1); else arr.push(idx);
+      save(); renderContent();
+    };
+    c.onclick=toggle;
+    c.onkeydown=(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } };
   });
   document.querySelectorAll("[data-confirm]").forEach(c=>c.onclick=()=>{
     state.confirms=state.confirms||{}; const id=c.dataset.confirm;
@@ -661,7 +676,7 @@ function bindContent(){
   });
 }
 
-function renderFooter(){ $("#foot").innerHTML=t().footer; }
+function renderFooter(){ $("#foot").innerHTML=t().footer.replace('href="#"','href="'+WHATSAPP_URL+'" target="_blank" rel="noopener"'); }
 $("#themeBtn").onclick=()=>{ state.theme=state.theme==="dark"?"light":"dark"; save(); applyTheme(); };
 $("#langBtn").onclick =()=>{ state.lang=state.lang==="zh"?"en":"zh"; save(); renderAll(); };
 
