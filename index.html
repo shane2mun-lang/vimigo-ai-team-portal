@@ -306,13 +306,13 @@ const SECTIONS = [
   title:{zh:"提交课前作业",en:"Submit Your Pre-Work"},
   blocks:[
     {type:"lead", x:{zh:"在开班前提交以下资料，我们的导师会据此为你的公司做准备。",en:"Submit the following before class so our trainers can prepare for your company."}},
-    {type:"form", title:{zh:"表单一：参与者资料",en:"Form 1: Participant Profile"},
+    {type:"form", embed:"https://airtable.com/embed/appb9KTroJHxRsGIr/pagyToabx6XxXHUlX/form", title:{zh:"表单一：参与者资料",en:"Form 1: Participant Profile"},
       desc:{zh:"基本信息，便于分组与对接。",en:"Basic info for grouping and contact."},
       fields:[{zh:"姓名",en:"Name"},{zh:"公司",en:"Company"},{zh:"职位",en:"Position"},{zh:"部门",en:"Department"},
               {zh:"WhatsApp 号码",en:"WhatsApp number"},{zh:"邮箱",en:"Email"},
               {zh:"AI 水平（初级 / 中级 / 高级）",en:"AI level (Beginner / Intermediate / Advanced)", eg:{zh:"例如 e.g. Intermediate 中级 — 每天用 ChatGPT，但还没做过自动化",en:"e.g. Intermediate — I use ChatGPT daily but haven't built any automation"}},
               {zh:"你想打造什么？ What do you want to build?",en:"What do you want to build?", eg:{zh:"例如 e.g. An AI assistant that drafts my sales follow-ups 帮我写销售跟进的 AI 助手",en:"e.g. An AI assistant that drafts my sales follow-ups"}}]},
-    {type:"form", title:{zh:"表单二：公司 AI 就绪度",en:"Form 2: Company AI Readiness"},
+    {type:"form", embed:"https://airtable.com/embed/appb9KTroJHxRsGIr/pagrfwMgOPMP7GRag/form", title:{zh:"表单二：公司 AI 就绪度",en:"Form 2: Company AI Readiness"},
       desc:{zh:"帮助我们了解你公司的现状与瓶颈。",en:"Helps us understand your company's current state and bottlenecks."},
       fields:[{zh:"行业",en:"Industry"},{zh:"团队规模",en:"Team size"},{zh:"主要部门",en:"Main departments"},
               {zh:"现有使用的软件",en:"Current software used"},{zh:"最大的瓶颈",en:"Biggest bottleneck"},
@@ -328,7 +328,7 @@ const SECTIONS = [
     {type:"table", headers:{zh:["Use Case 用例","Department 部门","Current Problem 当前问题","Current Process 当前流程","Desired AI Output 期望产出"],en:["Use Case","Department","Current Problem","Current Process","Desired AI Output"]},
       rows:[ {zh:["Sales follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"],
               en:["Sales Follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"]} ]},
-    {type:"form", title:{zh:"提交我的 3 个用例 Submit my 3 use cases",en:"Submit My 3 Use Cases"},
+    {type:"form", embed:"https://airtable.com/embed/appb9KTroJHxRsGIr/pagouG5fioZ50mjpS/form", title:{zh:"提交我的 3 个用例 Submit my 3 use cases",en:"Submit My 3 Use Cases"},
       desc:{zh:"每个用例填写：名称、部门、当前问题、当前流程、期望产出。",en:"For each: name, department, current problem, current process, desired output."},
       fields:[
         {zh:"Use Case 1 (用例 1)",en:"Use Case 1", eg:{zh:"e.g. Sales follow-up reminder + reply script 销售跟进提醒 + 回复话术",en:"e.g. Sales follow-up reminder + reply script"}},
@@ -600,6 +600,10 @@ function renderBlock(b, si){
       return h+`</div>`;
     }
     case "form":{
+      if(b.embed){
+        return `<div class="formph"><div class="ttl">📋 ${L(b.title)}</div><div class="ds">${L(b.desc)}</div>
+          <iframe class="airtable-embed" src="${b.embed}" frameborder="0" onmousewheel="" width="100%" height="640" style="background:#fff;border:1px solid var(--line);border-radius:12px"></iframe></div>`;
+      }
       let f="";
       b.fields.forEach(fl=>{ const ex=fl.eg?L(fl.eg):(state.lang==="zh"?"（占位输入框）":"(placeholder field)");
         f+=`<div class="field"><label>${L(fl)}</label><div class="inp">${ex}</div></div>`; });
