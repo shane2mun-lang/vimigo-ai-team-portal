@@ -145,26 +145,6 @@
   .btn-link{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 16px;border-radius:9px;border:none;cursor:pointer;margin-top:4px}
   .btn-link:hover{background:var(--brand-ink)}
 
-  .media{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    background:linear-gradient(135deg,#241a44,#3a2f63);min-height:210px;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:12px;margin:0 0 16px;color:#d7caf7;cursor:pointer}
-  .media .play{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;
-    align-items:center;justify-content:center;color:#5b21b6;font-size:24px;box-shadow:0 8px 22px rgba(0,0,0,.35);padding-left:4px}
-  .media .cap{font-size:13.5px;font-weight:600}
-  .media .ph{position:absolute;top:10px;left:12px;font-size:10px;font-weight:800;letter-spacing:.07em;
-    background:rgba(0,0,0,.4);color:#fff;padding:3px 9px;border-radius:99px}
-  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
-  ol.steps>li{position:relative;padding:0 0 16px 40px;counter-increment:s;line-height:1.6;font-size:14.5px}
-  ol.steps>li:last-child{padding-bottom:0}
-  ol.steps>li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;
-    background:var(--chip);color:var(--brand-ink);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
-  ol.steps .note{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
-  .confirm{background:var(--ok-bg);border:1px solid color-mix(in srgb,var(--ok) 30%,transparent);border-radius:12px;
-    padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600}
-  .confirm .cb{width:21px;height:21px;border-radius:6px;border:2px solid var(--ok);flex:0 0 auto;display:flex;
-    align-items:center;justify-content:center;color:#fff;font-size:12px}
-  .confirm.on .cb{background:var(--ok)}
-
   .cta{width:100%;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;margin-top:18px;background:var(--brand);color:#fff}
   .cta:hover{background:var(--brand-ink)}
   .cta.done{background:var(--ok)}
@@ -208,7 +188,7 @@
       <button class="hamb" id="hamb">☰</button>
       <div class="brand"><span class="logo">🚀</span><span>VIMIGO<small id="brandSub">for AI Team · 启动门户</small></span></div>
       <div class="progress-wrap">
-        <span class="progress-text" id="progText">0/14</span>
+        <span class="progress-text" id="progText">0/10</span>
         <div class="progress-bar"><i id="progFill"></i></div>
       </div>
       <div class="controls">
@@ -236,12 +216,12 @@ const T = {
   zh:{ brandSub:"for AI Team · 启动门户", complete:"此部分我明白了",
     completed:"已完成 ✓", prev:"← 上一部分", next:"下一部分 →", of:"/",
     enter:"进入门户", footer:'VIMIGO for AI Team · 需要协助？<a href="#">WhatsApp 联系管理员</a>',
-    editNote:"⚠️ 这是 Phase 1 结构占位门户。文字、表单、视频均为占位，请替换为真实内容。表单可后续嵌入 Airtable / Tally 链接，视频框可嵌入录屏。",
+    editNote:"⚠️ 这是 Phase 1 结构占位门户。文字与表单均为占位，请替换为真实内容。表单可后续嵌入 Airtable / Tally 链接。",
     whatToDo:"操作步骤 What to do", verify:"验证是否成功" },
   en:{ brandSub:"for AI Team · Portal", complete:"I understand this section",
     completed:"Completed ✓", prev:"← Previous", next:"Next →", of:"/",
     enter:"Enter Portal", footer:'VIMIGO for AI Team · Need help? <a href="#">Message admin on WhatsApp</a>',
-    editNote:"⚠️ Phase 1 placeholder portal. Copy, forms and videos are placeholders — replace with real content. Form blocks can embed an Airtable / Tally link; media boxes can embed a screen recording.",
+    editNote:"⚠️ Phase 1 placeholder portal. Copy and forms are placeholders — replace with real content. Form blocks can embed an Airtable / Tally link.",
     whatToDo:"What to do", verify:"Verify it works" }
 };
 const t = () => T[state.lang];
@@ -253,11 +233,13 @@ const SECTIONS = [
   title:{zh:"欢迎加入 VIMIGO for AI Team",en:"Welcome to VIMIGO for AI Team"},
   blocks:[
     {type:"hero"},
+    {type:"p", x:{zh:"📅 课程日期：2026 年 7 月 8–11 日（共 4 天）　｜　🕙 时间：每天 10am–7pm　｜　📍 地点：Avengers Incubator, 吉隆坡 (KL)",
+                  en:"📅 Dates: 8–11 July 2026 (4 days)　|　🕙 Time: 10am–7pm daily　|　📍 Venue: Avengers Incubator, KL"}},
     {type:"h3", x:{zh:"开班前，请完成这 5 件事",en:"Before class, complete these 5 things"}},
     {type:"p", x:{zh:"【占位】这个门户会带你完成所有课前准备，让你一进教室就能为公司搭建真正可用的 AI 工作流，而不是从零摸索工具。",
                   en:"[Placeholder] This portal walks you through all pre-work so that on Day 1 you build real, usable AI workflows for your company — not fumble with tools from scratch."}},
-    {type:"tip", x:{zh:"建议预留 30–45 分钟完成全部课前准备。越认真准备，课堂产出越大。",
-                    en:"Set aside 30–45 minutes for pre-work. The more real prep you bring, the more you build in class."}}
+    {type:"tip", x:{zh:"建议预留 20–30 分钟完成全部课前准备。越认真准备，课堂产出越大。AI 工具的安装会在课程第一节课一起完成，无需提前安装。",
+                    en:"Set aside 20–30 minutes for pre-work. The more real prep you bring, the more you build in class. Tool installation is done together in class — no need to install in advance."}}
   ]},
 
 { id:"overview", icon:"🧭", nav:{zh:"课程总览",en:"Program Overview"},
@@ -287,12 +269,11 @@ const SECTIONS = [
       {zh:"充电器",en:"Charger"},
       {zh:"稳定网络 / 手机热点",en:"Stable internet / hotspot"},
       {zh:"Google / Gmail 账号",en:"Google / Gmail account"},
-      {zh:"ChatGPT 账号",en:"ChatGPT account"},
-      {zh:"Claude / Gemini 账号（如需要）",en:"Claude / Gemini account (if needed)"},
       {zh:"公司邮箱访问权限",en:"Company email access"},
-      {zh:"WhatsApp Web 可用",en:"WhatsApp Web access"},
       {zh:"带上真实的公司问题",en:"Bring real company problems"}
     ]},
+    {type:"tip", x:{zh:"AI 工具（ChatGPT、Claude、WhatsApp Web 等）的账号与安装会在课程第一节课由导师带着一起完成，无需提前安装，避免设置出错。",
+                    en:"AI tool accounts & setup (ChatGPT, Claude, WhatsApp Web, etc.) are done together in the first class session with the trainer — no need to install in advance, so nothing gets set up wrong."}},
     {type:"h3", x:{zh:"需要准备的公司资料",en:"Company Information to Prepare"}},
     {type:"check", items:[
       {zh:"公司简介",en:"Company profile"},
@@ -349,75 +330,17 @@ const SECTIONS = [
     {type:"tip", x:{zh:"用真实流程，不要用虚构例子。越真实，课堂产出越值钱。",en:"Use real processes, not fake examples. The more real, the more valuable your output."}}
   ]},
 
-{ id:"tools", icon:"🧰", nav:{zh:"工具准备",en:"Tool Setup"},
-  title:{zh:"准备你的 AI 工具",en:"Set Up Your AI Tools"},
+{ id:"tools", icon:"🧰", nav:{zh:"会用到的工具",en:"Tools We'll Use"},
+  title:{zh:"课程会用到的 AI 工具（示例）",en:"AI Tools We'll Use (examples)"},
   blocks:[
-    {type:"tip", x:{zh:"课堂使用的工具可能随最新 AI 发展与公司情况调整。重点不是某个工具，而是学会设计 AI 工作流、AI Agent 与 AI 团队执行。",
-                    en:"Tools may change with the latest AI developments and each company's situation. The focus is designing AI workflows, agents and team execution — not one specific tool."}},
+    {type:"p", x:{zh:"以下是课程中可能会用到的工具示例，让你先有个概念。你不需要提前安装 —— 我们会在课程第一节课一起完成安装与设置，导师在现场逐步讲解每个设定与功能，避免出错。",
+                  en:"These are examples of the tools we may use, just so you know what to expect. You do NOT need to install anything in advance — we set everything up together in the first class session, with the trainer walking through each setting and feature on the spot, so nothing gets misconfigured."}},
     {type:"tools",
       req:["ChatGPT","Gmail / Google 账号","Google Drive","WhatsApp Web","笔记本浏览器 Browser"],
       rec:["Claude","Gemini","Notion","Airtable / Google Sheet","Canva","Loom / 录屏工具"],
       opt:["CRM","HR 系统","会计系统","项目管理工具","WhatsApp API / 自动化工具"]},
-    {type:"p", x:{zh:"接下来的 4 个部分会带你逐一安装并登录每个必备工具。请跟着每个部分顶部的演示视频操作。",
-                  en:"The next 4 sections walk you through installing and signing in to each required tool. Follow the demo video at the top of each one."}}
-  ]},
-
-{ id:"t_chatgpt", icon:"🤖", nav:{zh:"安装 ChatGPT",en:"Install ChatGPT"},
-  title:{zh:"安装并登录 ChatGPT",en:"Install & Sign In to ChatGPT"},
-  blocks:[
-    {type:"lead", x:{zh:"【占位】说明 ChatGPT 在课堂中的用途，以及为什么要提前登录好。",
-                     en:"[Placeholder] What ChatGPT is used for in class and why to sign in ahead of time."}},
-    {type:"video", cap:{zh:"安装与登录演示（占位 — 在此嵌入录屏）",en:"Install & sign-in demo (placeholder — embed a screen recording here)"}},
-    {type:"steps", items:[
-      {t:{zh:"打开 ChatGPT：",en:"Open ChatGPT:"}, btn:{label:{zh:"打开 ChatGPT",en:"Open ChatGPT"},url:"https://chat.openai.com"}},
-      {t:{zh:"【占位】点击 “Sign up”，用你的公司 Gmail 注册或登录。",en:"[Placeholder] Click “Sign up” and register/sign in with your company Gmail."}},
-      {t:{zh:"【占位】完成邮箱或手机验证。",en:"[Placeholder] Complete email or phone verification."}, note:{zh:"收不到验证码？改用手机 App 注册，再回电脑登录。",en:"No code? Sign up on the mobile app, then sign in on your computer."}},
-      {t:{zh:"【占位】登录后确认能看到聊天输入框。",en:"[Placeholder] After signing in, confirm you can see the chat box."}}
-    ]},
-    {type:"confirm", x:{zh:"你能登录 ChatGPT 并看到聊天界面吗？",en:"Can you log into ChatGPT and see the chat screen?"}}
-  ]},
-
-{ id:"t_claude", icon:"🧠", nav:{zh:"安装 Claude / Gemini",en:"Install Claude / Gemini"},
-  title:{zh:"登录 Claude（与 Gemini）",en:"Sign In to Claude (and Gemini)"},
-  blocks:[
-    {type:"lead", x:{zh:"【占位】说明 Claude / Gemini 的用途，以及推荐的套餐。",
-                     en:"[Placeholder] What Claude / Gemini are for, and any recommended plan."}},
-    {type:"video", cap:{zh:"登录演示（占位）",en:"Sign-in demo (placeholder)"}},
-    {type:"steps", items:[
-      {t:{zh:"打开 Claude：",en:"Open Claude:"}, btn:{label:{zh:"打开 Claude",en:"Open Claude"},url:"https://claude.ai"}},
-      {t:{zh:"【占位】点击 “Continue with Google”，选择步骤里的 Gmail。",en:"[Placeholder] Click “Continue with Google” and pick your Gmail."}},
-      {t:{zh:"（可选）打开 Gemini，用同一个 Google 账号登录：",en:"(Optional) Open Gemini and sign in with the same Google account:"}, btn:{label:{zh:"打开 Gemini",en:"Open Gemini"},url:"https://gemini.google.com"}},
-      {t:{zh:"【占位】确认两个都能正常登录。",en:"[Placeholder] Confirm both sign in correctly."}}
-    ]},
-    {type:"confirm", x:{zh:"你能登录 Claude（和 Gemini）吗？",en:"Can you sign in to Claude (and Gemini)?"}}
-  ]},
-
-{ id:"t_google", icon:"📧", nav:{zh:"设置 Google 账号",en:"Set Up Google"},
-  title:{zh:"设置 Google / Gmail 账号",en:"Set Up Your Google / Gmail Account"},
-  blocks:[
-    {type:"lead", x:{zh:"【占位】Gmail 与 Google Drive 会用于登录其他工具与存放文件。",
-                     en:"[Placeholder] Gmail and Google Drive are used to sign in to other tools and store files."}},
-    {type:"video", cap:{zh:"账号设置演示（占位）",en:"Account setup demo (placeholder)"}},
-    {type:"steps", items:[
-      {t:{zh:"打开 Google 注册页：",en:"Open Google sign-up:"}, btn:{label:{zh:"创建 Google 账号",en:"Create Google Account"},url:"https://accounts.google.com/signup"}},
-      {t:{zh:"【占位】使用规范的名字（建议 firstname.lastname）。",en:"[Placeholder] Use a clean name (e.g. firstname.lastname)."}},
-      {t:{zh:"【占位】确认能登录 Gmail 与 Google Drive。",en:"[Placeholder] Confirm you can open Gmail and Google Drive."}}
-    ]},
-    {type:"confirm", x:{zh:"你能登录 Gmail 和 Google Drive 吗？",en:"Can you log into Gmail and Google Drive?"}}
-  ]},
-
-{ id:"t_whatsapp", icon:"💬", nav:{zh:"连接 WhatsApp Web",en:"Connect WhatsApp Web"},
-  title:{zh:"连接 WhatsApp Web",en:"Connect WhatsApp Web"},
-  blocks:[
-    {type:"lead", x:{zh:"【占位】WhatsApp Web 会用于在电脑上处理客户对话与自动化演示。",
-                     en:"[Placeholder] WhatsApp Web is used to handle customer chats and automation demos on your computer."}},
-    {type:"video", cap:{zh:"连接演示（占位）",en:"Connection demo (placeholder)"}},
-    {type:"steps", items:[
-      {t:{zh:"在电脑浏览器打开：",en:"Open in your computer browser:"}, btn:{label:{zh:"打开 WhatsApp Web",en:"Open WhatsApp Web"},url:"https://web.whatsapp.com"}},
-      {t:{zh:"【占位】手机 WhatsApp → 已连接的设备 → 连接设备，扫描二维码。",en:"[Placeholder] Phone WhatsApp → Linked devices → Link a device, scan the QR code."}},
-      {t:{zh:"【占位】确认电脑上能看到你的聊天列表。",en:"[Placeholder] Confirm your chat list appears on the computer."}}
-    ]},
-    {type:"confirm", x:{zh:"你的 WhatsApp Web 已成功连接吗？",en:"Is your WhatsApp Web connected?"}}
+    {type:"tip", x:{zh:"注：课程所提及之 AI 工具、平台及案例将根据最新技术发展持续更新。课程重点为企业 AI 落地应用、AI Workflow、AI Agent 及 AI Team 建设，而非学习特定工具。",
+                    en:"Note: The AI tools, platforms and examples mentioned in this program are continuously updated with the latest technology. The focus is enterprise AI implementation, AI Workflow, AI Agent and AI Team building — not learning any specific tool."}}
   ]},
 
 { id:"journey", icon:"🗺️", nav:{zh:"四天旅程",en:"4-Day Journey"},
@@ -426,7 +349,7 @@ const SECTIONS = [
     {type:"lead", x:{zh:"4 天 / 40 小时。每一天都有明确的公司产出。",en:"4 days / 40 hours. Each day produces a concrete company output."}},
     {type:"days", items:[
       {d:"Day 1", h:{zh:"AI 思维 & 业务用例梳理",en:"AI Mindset & Business Use-Case Mapping"},
-        goal:{zh:"理解 AI 能为公司做什么。",en:"Understand what AI can do for the company."},
+        goal:{zh:"理解 AI 能为公司做什么（并一起完成工具安装与设置）。",en:"Understand what AI can do for the company (and set up all tools together)."},
         outs:[{zh:"AI 机会地图",en:"AI opportunity map"},{zh:"部门痛点清单",en:"Department pain-point list"},{zh:"选定第一个 AI 用例",en:"First AI use case selected"}]},
       {d:"Day 2", h:{zh:"AI 工作流设计",en:"AI Workflow Design"},
         goal:{zh:"把重复工作变成结构化的 AI 工作流。",en:"Turn repeated work into structured AI workflows."},
@@ -459,8 +382,8 @@ const SECTIONS = [
   blocks:[
     {type:"faq", items:[
       {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"【占位】可以。课程从思维开始，按部就班带你做。",en:"[Placeholder] Yes. We start from mindset and guide you step by step."}},
-      {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"【占位】请填写日期、时间、地点。",en:"[Placeholder] Fill in dates, time, venue."}},
-      {q:{zh:"需要自带电脑吗？",en:"Do I bring my own laptop?"},a:{zh:"【占位】需要，并请提前装好账号。",en:"[Placeholder] Yes, with accounts set up in advance."}},
+      {q:{zh:"需要提前安装 AI 工具吗？",en:"Do I need to install AI tools beforehand?"},a:{zh:"不需要。所有工具会在课程第一节课由导师带着一起安装与设置。",en:"No. All tools are installed and set up together with the trainer in the first class session."}},
+      {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"2026 年 7 月 8–11 日（共 4 天），每天 10am–7pm。地点：Avengers Incubator, 吉隆坡 (KL)。",en:"8–11 July 2026 (4 days), 10am–7pm daily. Venue: Avengers Incubator, KL."}},
       {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"【占位】有 30 天落地跟进。详见“课后落地”。",en:"[Placeholder] Yes — a 30-day follow-up. See 'After Class'."}}
     ]},
     {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
@@ -484,13 +407,13 @@ const SECTIONS = [
 
 const READINESS = [
   {zh:"个人资料已提交",en:"Profile submitted", sec:"prework"},
-  {zh:"AI 工具已安装",en:"Tools installed", sec:["t_chatgpt","t_claude","t_google","t_whatsapp"]},
+  {zh:"已查看课程工具",en:"Reviewed the tools", sec:"tools"},
   {zh:"3 个用例已提交",en:"Use cases submitted", sec:"usecases"},
   {zh:"已加入 WhatsApp 群",en:"Joined WhatsApp group", sec:"support"},
   {zh:"准备好迎接 Day 1",en:"Ready for Day 1", sec:"__all__"}
 ];
 
-const LS="vimigo_portal_v3";
+const LS="vimigo_portal_v4";
 let state={ unlocked:false, lang:"zh", theme:"light", current:0, done:[], checks:{}, confirms:{} };
 try{ const s=JSON.parse(localStorage.getItem(LS)); if(s) state=Object.assign(state,s); }catch(e){}
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
@@ -557,7 +480,6 @@ function renderBlock(b, si){
         </div>
         <div class="readiness"><h4>${state.lang==="zh"?"我的准备进度":"My Readiness"}</h4>${ri}</div></div>`;
     }
-    case "video": return `<div class="media"><span class="ph">${state.lang==="zh"?"视频 / GIF 占位":"VIDEO / GIF PLACEHOLDER"}</span><div class="play">▶</div><div class="cap">${L(b.cap)}</div></div>`;
     case "steps":{
       let li="";
       b.items.forEach(it=>{
