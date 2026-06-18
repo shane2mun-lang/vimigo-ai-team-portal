@@ -120,6 +120,14 @@
   .tag.opt{background:var(--chip);color:var(--muted)}
   .tool-col ul{margin:0;padding-left:18px;line-height:1.9;font-size:14px}
 
+  .sgh{display:flex;align-items:center;margin:0 0 8px}
+  .sgh h4{margin:0;font-size:16px}
+  .sgn{display:inline-flex;width:26px;height:26px;border-radius:8px;background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;font-weight:800;font-size:13px;align-items:center;justify-content:center;margin-right:9px;flex:0 0 auto}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-size:12.5px;font-weight:600}
+  ul.uses{margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13.5px;color:var(--muted)}
+  .tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px}
+
   .formph{border:1.5px dashed color-mix(in srgb,var(--brand) 45%,transparent);border-radius:16px;padding:20px;background:color-mix(in srgb,var(--brand) 5%,transparent);margin:0 0 16px}
   .formph .ttl{font-weight:800;font-size:16px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
   .formph .ds{color:var(--muted);font-size:13.5px;margin:0 0 14px;line-height:1.6}
@@ -141,7 +149,7 @@
   .acc .ab{padding:0 16px 16px;font-size:14px;line-height:1.65;color:var(--muted)}
 
   .tip{background:var(--info-bg);border:1px solid color-mix(in srgb,var(--brand) 22%,transparent);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px;line-height:1.6;display:flex;gap:8px}
-  .tip .i{color:var(--brand-ink);font-weight:800}
+  .tip .i{color:var(--brand-ink);font-weight:800;flex:0 0 auto}
   .btn-link{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 16px;border-radius:9px;border:none;cursor:pointer;margin-top:4px}
   .btn-link:hover{background:var(--brand-ink)}
 
@@ -330,17 +338,81 @@ const SECTIONS = [
     {type:"tip", x:{zh:"用真实流程，不要用虚构例子。越真实，课堂产出越值钱。",en:"Use real processes, not fake examples. The more real, the more valuable your output."}}
   ]},
 
-{ id:"tools", icon:"🧰", nav:{zh:"会用到的工具",en:"Tools We'll Use"},
-  title:{zh:"课程会用到的 AI 工具（示例）",en:"AI Tools We'll Use (examples)"},
+{ id:"tools", icon:"🧰", nav:{zh:"AI Builder Stack",en:"AI Builder Stack"},
+  title:{zh:"课程会用到的 AI Builder Stack",en:"The AI Builder Stack You'll Use"},
   blocks:[
-    {type:"p", x:{zh:"以下是课程中可能会用到的工具示例，让你先有个概念。你不需要提前安装 —— 我们会在课程第一节课一起完成安装与设置，导师在现场逐步讲解每个设定与功能，避免出错。",
-                  en:"These are examples of the tools we may use, just so you know what to expect. You do NOT need to install anything in advance — we set everything up together in the first class session, with the trainer walking through each setting and feature on the spot, so nothing gets misconfigured."}},
-    {type:"tools",
-      req:["ChatGPT","Gmail / Google 账号","Google Drive","WhatsApp Web","笔记本浏览器 Browser"],
-      rec:["Claude","Gemini","Notion","Airtable / Google Sheet","Canva","Loom / 录屏工具"],
-      opt:["CRM","HR 系统","会计系统","项目管理工具","WhatsApp API / 自动化工具"]},
-    {type:"tip", x:{zh:"注：课程所提及之 AI 工具、平台及案例将根据最新技术发展持续更新。课程重点为企业 AI 落地应用、AI Workflow、AI Agent 及 AI Team 建设，而非学习特定工具。",
-                    en:"Note: The AI tools, platforms and examples mentioned in this program are continuously updated with the latest technology. The focus is enterprise AI implementation, AI Workflow, AI Agent and AI Team building — not learning any specific tool."}}
+    {type:"p", x:{zh:"以下是 Vimigo for AI Team 课程中会使用到的核心工具与账号准备。",
+                  en:"Below are the core tools and accounts used throughout the VIMIGO for AI Team program."}},
+    {type:"tip", x:{zh:"这不是普通的 AI 工具课。我们不是只教你用 ChatGPT 写文案，而是带你建立公司未来可以使用的 AI Workflow、AI Agent、AI Knowledge Base、AI Automation 与 AI Team Operating System。所以这一次，你要准备的不只是 AI 聊天工具，而是一套真正可以 build、deploy、connect、automate 的 AI Builder Stack。",
+                    en:"This is not an ordinary AI tools class. We don't just teach you to write copy with ChatGPT — we help you build the AI Workflow, AI Agent, AI Knowledge Base, AI Automation and AI Team Operating System your company can keep using. So this time you're preparing not just chat tools, but a real AI Builder Stack you can build, deploy, connect and automate."}},
+    {type:"stackgroup", n:1, tier:"req",
+      title:{zh:"AI Model 账号｜AI 大脑",en:"AI Model Accounts | The AI Brain"},
+      desc:{zh:"这些是课程中最基础的 AI 模型账号。",en:"The foundational AI model accounts used throughout the course."},
+      tools:["ChatGPT Plus / Pro","Claude Pro / Max","Gemini"],
+      uses:[{zh:"AI 思考与分析",en:"AI thinking & analysis"},{zh:"Prompt 设计",en:"Prompt design"},{zh:"内容生成",en:"Content generation"},{zh:"文件理解",en:"Document understanding"},{zh:"商业流程拆解",en:"Business process breakdown"},{zh:"AI Agent 指令设计",en:"AI Agent instruction design"},{zh:"AI Workflow 规划",en:"AI Workflow planning"}]},
+    {type:"stackgroup", n:2, tier:"req",
+      title:{zh:"AI Coding / Vibe Coding 工具｜AI 开发助手",en:"AI Coding (Vibe Coding) Tools | AI Dev Assistants"},
+      desc:{zh:"这些工具帮你把想法变成真正可以运行的系统、页面、工具或内部应用。",en:"Turn your ideas into real, runnable systems, pages, tools and internal apps."},
+      tools:["Claude Code","Codex / Codex Pro","GitHub Copilot","Cursor","Windsurf","Lovable","Bolt"],
+      uses:[{zh:"建立内部 AI 工具",en:"Build internal AI tools"},{zh:"修改代码",en:"Edit code"},{zh:"生成前端页面",en:"Generate front-end pages"},{zh:"建立简单系统",en:"Build simple systems"},{zh:"Debug",en:"Debug"},{zh:"连接 API",en:"Connect APIs"},{zh:"建立 prototype",en:"Build prototypes"},{zh:"把 AI 想法变成可测试产品",en:"Turn AI ideas into testable products"}]},
+    {type:"stackgroup", n:3, tier:"req",
+      title:{zh:"API Key 准备｜让 AI 可以被系统调用",en:"API Keys | Let Systems Call AI"},
+      desc:{zh:"只用网页版是“使用 AI”。要让公司系统、workflow、agent 自动使用 AI，就需要 API Key。",en:"Using the web apps means \"using AI\". To let your systems, workflows and agents use AI automatically, you need API keys."},
+      tools:["OpenAI API Key","Anthropic API Key","Google / Gemini API Key"],
+      uses:[{zh:"让 AI 接入公司系统",en:"Connect AI into company systems"},{zh:"建立 AI Agent",en:"Build AI Agents"},{zh:"建立自动回复",en:"Build auto-replies"},{zh:"建立文件分析工具",en:"Build document-analysis tools"},{zh:"建立 AI Dashboard",en:"Build AI dashboards"},{zh:"建立内部自动化流程",en:"Build internal automations"},{zh:"让 AI 不只是聊天，而是可以执行任务",en:"Make AI execute tasks, not just chat"}],
+      note:{zh:"请不要把 API Key 发到 WhatsApp 群组、公开文档或任何不安全的地方。课程中会教你如何安全地保存和使用 API Key。",en:"Never post API keys in WhatsApp groups, public docs, or anywhere unsafe. We'll teach you how to store and use them securely in class."}},
+    {type:"stackgroup", n:4, tier:"req",
+      title:{zh:"Developer Foundation｜基础开发环境",en:"Developer Foundation | Basic Dev Environment"},
+      desc:{zh:"你不需要是 programmer，但需要准备好基本开发环境。导师会在课堂中带你一步步设置。",en:"You don't need to be a programmer, but you need a basic dev environment. The trainer sets it up with you step by step in class."},
+      tools:["Git","GitHub Account","VS Code / Cursor","Terminal / Command Line","Node.js","npm / pnpm"],
+      uses:[{zh:"保存你的项目",en:"Save your projects"},{zh:"管理版本",en:"Version control"},{zh:"连接 AI Coding 工具",en:"Connect AI coding tools"},{zh:"跑本地测试",en:"Run local tests"},{zh:"修改和发布你的 AI 工具",en:"Edit & ship your AI tools"},{zh:"让 prototype 不只停留在 demo",en:"Take prototypes beyond demos"}]},
+    {type:"stackgroup", n:5, tier:"req",
+      title:{zh:"Deployment Stack｜上线与部署",en:"Deployment Stack | Ship & Deploy"},
+      desc:{zh:"AI 工具做出来后不能只留在自己电脑。课程会让你理解如何部署，变成团队可以使用的系统。",en:"Once built, tools can't just live on your laptop. Learn to deploy them into systems your team can use."},
+      tools:["Railway","Vercel","GitHub Repository"],
+      uses:[{zh:"部署内部工具",en:"Deploy internal tools"},{zh:"部署 AI Agent 页面",en:"Deploy AI Agent pages"},{zh:"部署 API 服务",en:"Deploy API services"},{zh:"设置环境变量",en:"Set environment variables"},{zh:"连接数据库",en:"Connect databases"},{zh:"让团队通过链接使用你做的工具",en:"Let your team use your tools via a link"}]},
+    {type:"stackgroup", n:6, tier:"req",
+      title:{zh:"Database & Backend｜数据库与后端",en:"Database & Backend"},
+      desc:{zh:"真正的 AI Team 不只回答问题，它必须能读取、保存、更新和调用数据。",en:"A real AI Team doesn't just answer — it reads, stores, updates and calls data."},
+      tools:["Supabase","PostgreSQL","Google Sheet / Airtable"],
+      uses:[{zh:"储存客户 / 员工 / 销售资料",en:"Store customer / employee / sales data"},{zh:"建立 AI Dashboard",en:"Build AI dashboards"},{zh:"建立 AI Follow Up 系统",en:"Build AI follow-up systems"},{zh:"建立 Login / User Access",en:"Build login / user access"},{zh:"连接 AI Workflow 与公司数据",en:"Connect AI workflows to company data"}]},
+    {type:"stackgroup", n:7, tier:"req",
+      title:{zh:"Company Knowledge Base｜公司知识库",en:"Company Knowledge Base"},
+      desc:{zh:"AI 要真正帮到公司，必须先懂你的公司。课程带你整理知识库，让 AI 根据你的 SOP、FAQ、产品资料、价格、话术与制度来工作。",en:"For AI to truly help, it must know your company. Build a knowledge base so AI works from your SOPs, FAQs, product info, pricing, scripts and policies."},
+      tools:["Notion","Google Drive","Company SOP / PDF / Excel / Docs","FAQ / Product Info / Sales Script"],
+      uses:[{zh:"建立 AI Knowledge Base",en:"Build an AI Knowledge Base"},{zh:"建立 AI SOP Library",en:"Build an AI SOP Library"},{zh:"建立 AI Customer Service Brain",en:"Build an AI Customer Service Brain"},{zh:"建立 AI Sales Brain",en:"Build an AI Sales Brain"},{zh:"建立 AI HR / Admin Brain",en:"Build an AI HR / Admin Brain"},{zh:"让 AI 根据公司资料回答，不再乱猜",en:"Make AI answer from your data, not guesses"}]},
+    {type:"stackgroup", n:8, tier:"opt",
+      title:{zh:"Automation & Integration｜自动化与连接系统",en:"Automation & Integration"},
+      desc:{zh:"AI 必须连接 WhatsApp、CRM、Google Sheet、Notion、Email、Form、Database，才会变成真正的 AI Workflow。",en:"AI must connect to WhatsApp, CRM, Sheets, Notion, Email, Forms and databases to become a real AI Workflow."},
+      tools:["Make","Zapier","n8n","Webhook","WhatsApp API","CRM","HR System","Accounting System","Project Management System"],
+      uses:[{zh:"自动 follow up",en:"Auto follow-up"},{zh:"自动整理资料",en:"Auto-organize data"},{zh:"自动通知负责人",en:"Auto-notify owners"},{zh:"自动生成报告",en:"Auto-generate reports"},{zh:"自动更新 database",en:"Auto-update databases"},{zh:"自动触发 AI 分析",en:"Auto-trigger AI analysis"},{zh:"连接不同部门的工作流",en:"Connect cross-department workflows"}]},
+    {type:"stackgroup", n:9, tier:"rec",
+      title:{zh:"Design & Content Tools｜内容与设计工具",en:"Design & Content Tools"},
+      desc:{zh:"AI Team 不只是 technical。Marketing、Sales、HR、CS 也需要 AI 生成内容、设计素材、准备简报与客户沟通材料。",en:"An AI Team isn't only technical — Marketing, Sales, HR and CS use AI for content, design, decks and customer materials."},
+      tools:["Claude Design","seedance2","ChatGPT Image","Claude Artifacts","Google Lab","AI 数字人 / AI Avatar"],
+      uses:[{zh:"海报设计",en:"Poster design"},{zh:"课程素材",en:"Course materials"},{zh:"Sales deck",en:"Sales decks"},{zh:"SOP 视觉化",en:"SOP visualization"},{zh:"产品介绍",en:"Product intros"},{zh:"客户教育内容",en:"Customer education content"},{zh:"录屏说明与内部 training",en:"Screen-recordings & internal training"}]},
+    {type:"h3", x:{zh:"💻 电脑准备",en:"💻 Your Computer"}},
+    {type:"check", items:[
+      {zh:"携带 laptop",en:"Bring your laptop"},
+      {zh:"携带 charger",en:"Bring your charger"},
+      {zh:"确保电脑可以安装工具",en:"Make sure you can install software on it"},
+      {zh:"如果公司电脑有限制，请提前让 IT 开通权限",en:"If it's a locked-down company laptop, ask IT to grant install permission in advance"}
+    ]},
+    {type:"h3", x:{zh:"📁 公司资料准备",en:"📁 Company Materials"}},
+    {type:"check", items:[
+      {zh:"公司 SOP",en:"Company SOPs"},
+      {zh:"产品资料",en:"Product info"},
+      {zh:"Sales script",en:"Sales scripts"},
+      {zh:"FAQ",en:"FAQ"},
+      {zh:"Quotation format 报价格式",en:"Quotation format"},
+      {zh:"Purchase / Admin 流程",en:"Purchase / Admin processes"},
+      {zh:"Follow up 流程",en:"Follow-up process"},
+      {zh:"客户服务流程",en:"Customer service process"},
+      {zh:"HR / Admin 流程",en:"HR / Admin processes"},
+      {zh:"任何你想用 AI 改善的重复性工作",en:"Any repetitive work you want AI to improve"}
+    ]},
+    {type:"tip", x:{zh:"重要说明：课程所使用的工具、平台与案例会根据最新 AI 技术发展持续更新。Vimigo for AI Team 的重点不是学习某一个工具，而是学习如何把 AI 真正落地到企业 —— AI Workflow、AI Agent、AI Knowledge Base、AI Dashboard、AI Automation、AI Team Operating System。工具会变，但企业要学会的是：如何设计、连接、执行和管理 AI Team。",
+                    en:"Important: The tools, platforms and examples evolve with the latest AI tech. VIMIGO for AI Team isn't about learning one tool — it's about implementing AI in your business: AI Workflow, AI Agent, AI Knowledge Base, AI Dashboard, AI Automation, AI Team Operating System. Tools change; what your company must learn is how to design, connect, execute and manage an AI Team."}}
   ]},
 
 { id:"journey", icon:"🗺️", nav:{zh:"四天旅程",en:"4-Day Journey"},
@@ -413,7 +485,7 @@ const READINESS = [
   {zh:"准备好迎接 Day 1",en:"Ready for Day 1", sec:"__all__"}
 ];
 
-const LS="vimigo_portal_v4";
+const LS="vimigo_portal_v5";
 let state={ unlocked:false, lang:"zh", theme:"light", current:0, done:[], checks:{}, confirms:{} };
 try{ const s=JSON.parse(localStorage.getItem(LS)); if(s) state=Object.assign(state,s); }catch(e){}
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
@@ -480,19 +552,21 @@ function renderBlock(b, si){
         </div>
         <div class="readiness"><h4>${state.lang==="zh"?"我的准备进度":"My Readiness"}</h4>${ri}</div></div>`;
     }
-    case "steps":{
-      let li="";
-      b.items.forEach(it=>{
-        li+=`<li>${L(it.t)}`;
-        if(it.btn) li+=`<br><a class="btn-link" href="${it.btn.url}" target="_blank" rel="noopener">${L(it.btn.label)} ↗</a>`;
-        if(it.note) li+=`<span class="note">${L(it.note)}</span>`;
-        li+=`</li>`;
-      });
-      return `<div class="card"><h3 class="sub" style="margin-top:0">${t().whatToDo}</h3><ol class="steps">${li}</ol></div>`;
-    }
-    case "confirm":{
-      const id=SECTIONS[si].id, on=!!(state.confirms&&state.confirms[id]);
-      return `<div class="confirm ${on?"on":""}" data-confirm="${id}"><span class="cb">${on?"✓":""}</span><span>${L(b.x)}</span></div>`;
+    case "stackgroup":{
+      const tierCls=b.tier, tierLbl = state.lang==="zh"
+        ? (b.tier==="req"?"必备":b.tier==="rec"?"推荐":"视公司情况使用")
+        : (b.tier==="req"?"REQUIRED":b.tier==="rec"?"RECOMMENDED":"AS NEEDED");
+      let chips=""; b.tools.forEach(x=>chips+=`<span class="chip">${x}</span>`);
+      let uses=""; b.uses.forEach(u=>uses+=`<li>${L(u)}</li>`);
+      const note=b.note?`<div class="tip" style="margin-top:10px"><span class="i">⚠️</span><span>${L(b.note)}</span></div>`:"";
+      return `<div class="card">
+        <div class="sgh"><span class="sgn">${b.n}</span><h4>${L(b.title)}</h4></div>
+        <p class="muted" style="margin:0 0 6px;line-height:1.6;font-size:14px">${L(b.desc)}</p>
+        <div><span class="tag ${tierCls}">${tierLbl}</span></div>
+        <div class="chips">${chips}</div>
+        <div class="ol" style="margin-top:10px;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--brand-ink)">${state.lang==="zh"?"用途 USES":"USES"}</div>
+        <ul class="uses">${uses}</ul>${note}
+      </div>`;
     }
     case "lead": return `<p class="lead">${L(b.x)}</p>`;
     case "h3":   return `<h3 class="sub">${L(b.x)}</h3>`;
@@ -524,12 +598,6 @@ function renderBlock(b, si){
       let h=`<div class="card">`;
       b.items.forEach((r,idx)=>{ h+=`<div class="rule"><div class="rn">${idx+1}</div><div><h4>${L(r.h)}</h4><p>${L(r.d)}</p></div></div>`; });
       return h+`</div>`;
-    }
-    case "tools":{
-      const col=(tag,cls,arr)=>{ let li=""; arr.forEach(x=>li+=`<li>${x}</li>`);
-        return `<div class="card tool-col"><h4><span class="tag ${cls}">${tag}</span></h4><ul>${li}</ul></div>`; };
-      const lbl=state.lang==="zh"?["必备","推荐","可选（视公司而定）"]:["REQUIRED","RECOMMENDED","OPTIONAL"];
-      return col(lbl[0],"req",b.req)+col(lbl[1],"rec",b.rec)+col(lbl[2],"opt",b.opt);
     }
     case "form":{
       let f="";
