@@ -1,0 +1,12 @@
+{
+  "name": "vimigo-onboarding-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VIMIGO for AI Team — customer onboarding portal (static).",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VIMIGO for AI Team — 客户启动门户 / Onboarding Portal</title>
+<style>
+  :root{
+    --bg:#f5f6fa; --card:#ffffff; --ink:#15131f; --muted:#6b6880; --line:#e7e6ef;
+    --brand:#6d28d9; --brand2:#8b5cf6; --brand-ink:#5b21b6; --accent:#a78bfa;
+    --ok:#16a34a; --ok-bg:#ecfdf3; --warn:#b45309; --warn-bg:#fff7ed;
+    --info-bg:#f3effe; --chip:#f2f0fb; --code:#1a1430; --code-ink:#e9e3ff;
+    --shadow:0 12px 34px rgba(60,40,120,.10);
+  }
+  html[data-theme="dark"]{
+    --bg:#0c0a17; --card:#16122a; --ink:#ece9f8; --muted:#a59fc2; --line:#2a2444;
+    --brand:#8b5cf6; --brand2:#a78bfa; --brand-ink:#c4b5fd; --accent:#a78bfa;
+    --ok:#34d399; --ok-bg:#0c2a20; --warn:#fbbf24; --warn-bg:#2a1f08;
+    --info-bg:#1c1638; --chip:#211a3c; --code:#0a0717; --code-ink:#e9e3ff;
+    --shadow:0 14px 34px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+  a{color:var(--brand-ink)}
+  .hidden{display:none !important}
+
+  #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(1200px 600px at 50% -10%, rgba(139,92,246,.18), transparent), var(--bg);position:relative}
+  #gate .toplang{position:absolute;top:20px;right:20px}
+  .gate-card{width:min(440px,100%);background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:34px 30px;text-align:center}
+  .gate-card .logo{font-size:40px}
+  .gate-card h1{font-size:24px;margin:10px 0 4px}
+  .gate-card .tag{color:var(--brand-ink);font-weight:700;font-size:14px;margin:0 0 4px}
+  .gate-card p{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 20px}
+  .gate-input{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:12px;font-size:16px;text-align:center;letter-spacing:.12em;background:var(--bg);color:var(--ink);margin-bottom:12px}
+  .gate-input:focus{outline:none;border-color:var(--brand)}
+  .gate-btn{width:100%;background:var(--brand);color:#fff;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:800;cursor:pointer}
+  .gate-btn:hover{background:var(--brand-ink)}
+  .gate-err{color:#dc2626;font-size:13px;margin-top:10px;min-height:18px}
+  .gate-hint{font-size:11px;color:var(--muted);margin-top:14px}
+
+  header.bar{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line)}
+  .bar-in{display:flex;align-items:center;gap:14px;padding:11px 18px}
+  .hamb{display:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:6px 10px;cursor:pointer;font-size:16px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;white-space:nowrap}
+  .brand .logo{font-size:20px}
+  .brand small{display:block;font-weight:600;font-size:10.5px;color:var(--muted);letter-spacing:.02em}
+  .progress-wrap{display:flex;align-items:center;gap:10px;flex:1;min-width:0;max-width:420px}
+  .progress-text{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .progress-bar{flex:1;height:6px;background:var(--chip);border-radius:99px;overflow:hidden;min-width:50px}
+  .progress-bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .35s}
+  .controls{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .pill{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .pill b{color:var(--brand-ink)}
+  .pill:hover{border-color:var(--brand)}
+
+  .layout{display:grid;grid-template-columns:248px 1fr;align-items:start}
+  aside.nav{position:sticky;top:53px;height:calc(100vh - 53px);overflow-y:auto;border-right:1px solid var(--line);background:var(--card);padding:16px 12px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:14px;font-weight:600;margin-bottom:2px}
+  .nav-item:hover{background:var(--chip)}
+  .nav-item.active{background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--brand-ink)}
+  .nav-num{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:0 0 auto;color:var(--muted);background:var(--card)}
+  .nav-item.active .nav-num{border-color:var(--brand);color:var(--brand-ink)}
+  .nav-item.done .nav-num{background:var(--ok);border-color:var(--ok);color:#fff}
+  .nav-lbl{line-height:1.2}
+  .scrim{display:none}
+
+  main{padding:30px 30px 90px;max-width:860px}
+  .eyebrow{color:var(--brand-ink);font-weight:800;font-size:12px;letter-spacing:.08em;margin-bottom:8px;text-transform:uppercase}
+  h2.title{font-size:30px;margin:0 0 10px;display:flex;align-items:center;gap:10px}
+  h2.title .ic{font-size:28px}
+  .lead{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 22px}
+  h3.sub{font-size:18px;margin:26px 0 10px}
+  p.body{line-height:1.7;margin:0 0 14px}
+  .muted{color:var(--muted)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px 22px;margin:0 0 16px}
+
+  .hero{display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start}
+  .hero .pitch h1{font-size:34px;line-height:1.15;margin:6px 0 8px}
+  .hero .pitch .slogan{font-size:17px;color:var(--brand-ink);font-weight:700;margin:0 0 14px}
+  .readiness{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px 18px}
+  .readiness h4{margin:0 0 14px;font-size:14px;letter-spacing:.04em}
+  .ready-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .ready-item:last-child{border-bottom:none}
+  .ready-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+  .ready-item.on .ready-box{background:var(--ok);border-color:var(--ok)}
+  .ready-item.on{color:var(--ink)}
+
+  .grid4{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pill-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+  .pill-card .n{display:inline-flex;width:30px;height:30px;border-radius:9px;background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--brand-ink);font-weight:800;align-items:center;justify-content:center;margin-bottom:10px}
+  .pill-card h4{margin:0 0 6px;font-size:16px}
+  .pill-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+
+  .chk{display:flex;align-items:flex-start;gap:11px;padding:10px 0;cursor:pointer;line-height:1.55}
+  .chk .b{width:21px;height:21px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;margin-top:1px}
+  .chk.on .b{background:var(--brand);border-color:var(--brand)}
+  .chk.on span{color:var(--muted);text-decoration:line-through}
+
+  .day{border:1px solid var(--line);border-radius:14px;padding:18px;margin:0 0 14px;background:var(--card)}
+  .day .dh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .day .dn{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;font-weight:800;font-size:12px;padding:4px 10px;border-radius:99px}
+  .day h4{margin:0;font-size:17px}
+  .day .goal{color:var(--muted);font-size:14px;margin:0 0 10px}
+  .day .ol{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--brand-ink);margin:0 0 6px}
+  .day ul{margin:0;padding-left:18px;line-height:1.7;font-size:14px}
+
+  .rule{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .rule:last-child{border-bottom:none}
+  .rule .rn{font-size:22px;font-weight:800;color:var(--accent);flex:0 0 auto;width:34px}
+  .rule h4{margin:0 0 4px;font-size:16px}
+  .rule p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+
+  .tool-col h4{margin:0 0 10px;font-size:14px;display:flex;align-items:center;gap:8px}
+  .tool-col .tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px}
+  .tag.req{background:var(--warn-bg);color:var(--warn)}
+  .tag.rec{background:var(--info-bg);color:var(--brand-ink)}
+  .tag.opt{background:var(--chip);color:var(--muted)}
+  .tool-col ul{margin:0;padding-left:18px;line-height:1.9;font-size:14px}
+
+  .formph{border:1.5px dashed color-mix(in srgb,var(--brand) 45%,transparent);border-radius:16px;padding:20px;background:color-mix(in srgb,var(--brand) 5%,transparent);margin:0 0 16px}
+  .formph .ttl{font-weight:800;font-size:16px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .formph .ds{color:var(--muted);font-size:13.5px;margin:0 0 14px;line-height:1.6}
+  .field{margin:0 0 10px}
+  .field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--ink)}
+  .field .inp{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--muted);font-size:13.5px}
+  .formph .note{font-size:11.5px;color:var(--warn);margin-top:6px}
+  .form-cta{display:inline-block;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-weight:700;font-size:14px;margin-top:6px;cursor:pointer;text-decoration:none}
+
+  table.t{width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 12px;overflow:hidden;border-radius:12px;border:1px solid var(--line)}
+  table.t th{background:var(--chip);text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.03em;color:var(--muted)}
+  table.t td{padding:10px 12px;border-top:1px solid var(--line);line-height:1.5}
+
+  .acc{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 10px;background:var(--card)}
+  .acc>summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary::after{content:"+";color:var(--muted);font-size:18px}
+  .acc[open]>summary::after{content:"\2013"}
+  .acc .ab{padding:0 16px 16px;font-size:14px;line-height:1.65;color:var(--muted)}
+
+  .tip{background:var(--info-bg);border:1px solid color-mix(in srgb,var(--brand) 22%,transparent);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px;line-height:1.6;display:flex;gap:8px}
+  .tip .i{color:var(--brand-ink);font-weight:800}
+  .btn-link{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 16px;border-radius:9px;border:none;cursor:pointer;margin-top:4px}
+  .btn-link:hover{background:var(--brand-ink)}
+
+  .media{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:linear-gradient(135deg,#241a44,#3a2f63);min-height:210px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:12px;margin:0 0 16px;color:#d7caf7;cursor:pointer}
+  .media .play{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;
+    align-items:center;justify-content:center;color:#5b21b6;font-size:24px;box-shadow:0 8px 22px rgba(0,0,0,.35);padding-left:4px}
+  .media .cap{font-size:13.5px;font-weight:600}
+  .media .ph{position:absolute;top:10px;left:12px;font-size:10px;font-weight:800;letter-spacing:.07em;
+    background:rgba(0,0,0,.4);color:#fff;padding:3px 9px;border-radius:99px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{position:relative;padding:0 0 16px 40px;counter-increment:s;line-height:1.6;font-size:14.5px}
+  ol.steps>li:last-child{padding-bottom:0}
+  ol.steps>li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;
+    background:var(--chip);color:var(--brand-ink);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  ol.steps .note{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+  .confirm{background:var(--ok-bg);border:1px solid color-mix(in srgb,var(--ok) 30%,transparent);border-radius:12px;
+    padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600}
+  .confirm .cb{width:21px;height:21px;border-radius:6px;border:2px solid var(--ok);flex:0 0 auto;display:flex;
+    align-items:center;justify-content:center;color:#fff;font-size:12px}
+  .confirm.on .cb{background:var(--ok)}
+
+  .cta{width:100%;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;margin-top:18px;background:var(--brand);color:#fff}
+  .cta:hover{background:var(--brand-ink)}
+  .cta.done{background:var(--ok)}
+  .navrow{display:flex;justify-content:space-between;margin-top:14px;font-size:13px}
+  .navrow a{cursor:pointer;color:var(--muted);text-decoration:none}
+  .navrow a:hover{color:var(--ink)}
+  footer.foot{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding:20px;border-top:1px solid var(--line)}
+  .editnote{background:var(--warn-bg);border:1px dashed color-mix(in srgb,var(--warn) 45%,transparent);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:12px;margin:22px 0 0}
+
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .hamb{display:block}
+    aside.nav{position:fixed;top:0;left:0;height:100vh;width:260px;z-index:50;transform:translateX(-100%);transition:transform .25s;padding-top:18px}
+    aside.nav.open{transform:translateX(0)}
+    .scrim.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40}
+    .hero{grid-template-columns:1fr}
+    .grid4{grid-template-columns:1fr}
+    main{padding:24px 18px 80px}
+  }
+</style>
+</head>
+<body>
+
+<section id="gate">
+  <div class="toplang"><button class="pill" id="gateLang">🌐 中文 · EN</button></div>
+  <div class="gate-card">
+    <div class="logo">🚀</div>
+    <div class="tag" id="gTag">VIMIGO for AI Team</div>
+    <h1 id="gTitle">客户启动门户</h1>
+    <p id="gSub">请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。</p>
+    <input class="gate-input" id="gateCode" placeholder="ACCESS CODE" autocomplete="off" />
+    <button class="gate-btn" id="gateBtn">进入门户</button>
+    <div class="gate-err" id="gateErr"></div>
+    <div class="gate-hint" id="gHint">如未收到通行码，请向管理员索取。</div>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+  <header class="bar">
+    <div class="bar-in">
+      <button class="hamb" id="hamb">☰</button>
+      <div class="brand"><span class="logo">🚀</span><span>VIMIGO<small id="brandSub">for AI Team · 启动门户</small></span></div>
+      <div class="progress-wrap">
+        <span class="progress-text" id="progText">0/14</span>
+        <div class="progress-bar"><i id="progFill"></i></div>
+      </div>
+      <div class="controls">
+        <button class="pill" id="themeBtn">🌙</button>
+        <button class="pill" id="langBtn">🌐 中文 · EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="scrim" id="scrim"></div>
+    <aside class="nav" id="navSidebar"></aside>
+    <main>
+      <div id="content"></div>
+      <div class="editnote" id="editNote"></div>
+    </main>
+    <footer class="foot" id="foot"></footer>
+  </div>
+</div>
+
+<script>
+const ACCESS_CODE = "vimigoAI2026";
+
+const T = {
+  zh:{ brandSub:"for AI Team · 启动门户", complete:"此部分我明白了",
+    completed:"已完成 ✓", prev:"← 上一部分", next:"下一部分 →", of:"/",
+    enter:"进入门户", footer:'VIMIGO for AI Team · 需要协助？<a href="#">WhatsApp 联系管理员</a>',
+    editNote:"⚠️ 这是 Phase 1 结构占位门户。文字、表单、视频均为占位，请替换为真实内容。表单可后续嵌入 Airtable / Tally 链接，视频框可嵌入录屏。",
+    whatToDo:"操作步骤 What to do", verify:"验证是否成功" },
+  en:{ brandSub:"for AI Team · Portal", complete:"I understand this section",
+    completed:"Completed ✓", prev:"← Previous", next:"Next →", of:"/",
+    enter:"Enter Portal", footer:'VIMIGO for AI Team · Need help? <a href="#">Message admin on WhatsApp</a>',
+    editNote:"⚠️ Phase 1 placeholder portal. Copy, forms and videos are placeholders — replace with real content. Form blocks can embed an Airtable / Tally link; media boxes can embed a screen recording.",
+    whatToDo:"What to do", verify:"Verify it works" }
+};
+const t = () => T[state.lang];
+function L(o){ return o ? (o[state.lang] ?? o.zh ?? o.en ?? "") : ""; }
+function langPill(){ return state.lang==="zh" ? '🌐 <b>中文</b> · EN' : '🌐 中文 · <b>EN</b>'; }
+
+const SECTIONS = [
+{ id:"start", icon:"👋", nav:{zh:"开始这里",en:"Start Here"},
+  title:{zh:"欢迎加入 VIMIGO for AI Team",en:"Welcome to VIMIGO for AI Team"},
+  blocks:[
+    {type:"hero"},
+    {type:"h3", x:{zh:"开班前，请完成这 5 件事",en:"Before class, complete these 5 things"}},
+    {type:"p", x:{zh:"【占位】这个门户会带你完成所有课前准备，让你一进教室就能为公司搭建真正可用的 AI 工作流，而不是从零摸索工具。",
+                  en:"[Placeholder] This portal walks you through all pre-work so that on Day 1 you build real, usable AI workflows for your company — not fumble with tools from scratch."}},
+    {type:"tip", x:{zh:"建议预留 30–45 分钟完成全部课前准备。越认真准备，课堂产出越大。",
+                    en:"Set aside 30–45 minutes for pre-work. The more real prep you bring, the more you build in class."}}
+  ]},
+
+{ id:"overview", icon:"🧭", nav:{zh:"课程总览",en:"Program Overview"},
+  title:{zh:"这是什么课程",en:"What This Program Is"},
+  blocks:[
+    {type:"lead", x:{zh:"不是学 AI 工具，而是打造你公司的 AI Team。",en:"Not just learning AI tools — building your company's AI Team."}},
+    {type:"p", x:{zh:"【占位】这是一门面向企业老板与核心团队的实战课程。目标不是教完每一个 AI 工具，而是帮你的公司学会如何设计 AI 工作流、AI Agent，以及人与 AI 协作的团队结构，真正提升业务执行力。",
+                  en:"[Placeholder] A hands-on program for business owners and key team members. The goal isn't to teach every AI tool, but to help your company design AI workflows, AI agents, and a human + AI team structure that improves real execution."}},
+    {type:"h3", x:{zh:"你会学到的四大支柱",en:"The 4 Pillars You'll Learn"}},
+    {type:"pillars", items:[
+      {n:1,h:{zh:"AI Mindset",en:"AI Mindset"},d:{zh:"理解 AI 如何改变工作方式。",en:"Understand how AI changes the way work happens."}},
+      {n:2,h:{zh:"AI Workflow",en:"AI Workflow"},d:{zh:"把每天的手动工作变成可复用的工作流。",en:"Turn daily manual work into repeatable workflows."}},
+      {n:3,h:{zh:"AI Agent",en:"AI Agent"},d:{zh:"为具体部门打造 AI 助手。",en:"Build AI assistants for specific departments."}},
+      {n:4,h:{zh:"AI Team OS",en:"AI Team OS"},d:{zh:"设计人与 AI 团队如何协同运作。",en:"Design how the human team and AI team work together."}}
+    ]},
+    {type:"tip", x:{zh:"【占位】好的 AI 实战强调规划、测试、复查与安全思维 —— 不是“快速生成就好”。",
+                    en:"[Placeholder] Good AI work emphasizes planning, testing, review and security thinking — not just 'generate fast'."}}
+  ]},
+
+{ id:"checklist", icon:"✅", nav:{zh:"课前清单",en:"Before-Class Checklist"},
+  title:{zh:"课前准备清单",en:"Before-Class Checklist"},
+  blocks:[
+    {type:"lead", x:{zh:"这是最重要的一页。请逐项勾选确认。",en:"The most important page. Check each item off."}},
+    {type:"h3", x:{zh:"个人准备",en:"Personal Preparation"}},
+    {type:"check", items:[
+      {zh:"笔记本电脑（已充电）",en:"Laptop (charged)"},
+      {zh:"充电器",en:"Charger"},
+      {zh:"稳定网络 / 手机热点",en:"Stable internet / hotspot"},
+      {zh:"Google / Gmail 账号",en:"Google / Gmail account"},
+      {zh:"ChatGPT 账号",en:"ChatGPT account"},
+      {zh:"Claude / Gemini 账号（如需要）",en:"Claude / Gemini account (if needed)"},
+      {zh:"公司邮箱访问权限",en:"Company email access"},
+      {zh:"WhatsApp Web 可用",en:"WhatsApp Web access"},
+      {zh:"带上真实的公司问题",en:"Bring real company problems"}
+    ]},
+    {type:"h3", x:{zh:"需要准备的公司资料",en:"Company Information to Prepare"}},
+    {type:"check", items:[
+      {zh:"公司简介",en:"Company profile"},
+      {zh:"部门结构",en:"Department structure"},
+      {zh:"现有团队角色",en:"Current team roles"},
+      {zh:"重复性的手动工作",en:"Repeated manual work"},
+      {zh:"SOP / 流程文件",en:"SOP / workflow documents"},
+      {zh:"销售 / 客服 / 行政 / HR 流程",en:"Sales / CS / admin / HR processes"},
+      {zh:"现有表单、Excel、PDF、话术、WhatsApp 模板",en:"Existing forms, Excel, PDFs, scripts, WhatsApp templates"}
+    ]},
+    {type:"h3", x:{zh:"AI 用例思考（每人先想清楚）",en:"AI Use-Case Prep (think first)"}},
+    {type:"check", items:[
+      {zh:"哪些工作每天都在重复？",en:"What work is repeated every day?"},
+      {zh:"哪些工作太花时间？",en:"What work takes too much time?"},
+      {zh:"哪些工作太依赖某一个人？",en:"What work depends too much on one person?"},
+      {zh:"哪些工作容易忘记或跟进太慢？",en:"What work is easy to forget or follow up late?"},
+      {zh:"哪些工作可以用 AI 改善？",en:"What work can AI improve?"}
+    ]}
+  ]},
+
+{ id:"prework", icon:"📝", nav:{zh:"提交课前作业",en:"Submit Pre-Work"},
+  title:{zh:"提交课前作业",en:"Submit Your Pre-Work"},
+  blocks:[
+    {type:"lead", x:{zh:"在开班前提交以下资料，我们的导师会据此为你的公司做准备。",en:"Submit the following before class so our trainers can prepare for your company."}},
+    {type:"form", title:{zh:"表单一：参与者资料",en:"Form 1: Participant Profile"},
+      desc:{zh:"基本信息，便于分组与对接。",en:"Basic info for grouping and contact."},
+      fields:[{zh:"姓名",en:"Name"},{zh:"公司",en:"Company"},{zh:"职位",en:"Position"},{zh:"部门",en:"Department"},
+              {zh:"WhatsApp 号码",en:"WhatsApp number"},{zh:"邮箱",en:"Email"},
+              {zh:"AI 水平（初级 / 中级 / 高级）",en:"AI level (Beginner / Intermediate / Advanced)", eg:{zh:"例如 e.g. Intermediate 中级 — 每天用 ChatGPT，但还没做过自动化",en:"e.g. Intermediate — I use ChatGPT daily but haven't built any automation"}},
+              {zh:"你想打造什么？ What do you want to build?",en:"What do you want to build?", eg:{zh:"例如 e.g. An AI assistant that drafts my sales follow-ups 帮我写销售跟进的 AI 助手",en:"e.g. An AI assistant that drafts my sales follow-ups"}}]},
+    {type:"form", title:{zh:"表单二：公司 AI 就绪度",en:"Form 2: Company AI Readiness"},
+      desc:{zh:"帮助我们了解你公司的现状与瓶颈。",en:"Helps us understand your company's current state and bottlenecks."},
+      fields:[{zh:"行业",en:"Industry"},{zh:"团队规模",en:"Team size"},{zh:"主要部门",en:"Main departments"},
+              {zh:"现有使用的软件",en:"Current software used"},{zh:"最大的瓶颈",en:"Biggest bottleneck"},
+              {zh:"最重复的手动工作",en:"Most repeated manual work"},{zh:"现有的 AI 工具",en:"Current AI tools used"},
+              {zh:"最想先自动化哪个流程？",en:"Which process to automate first?"}]}
+  ]},
+
+{ id:"usecases", icon:"🎯", nav:{zh:"提交 AI 用例",en:"Submit AI Use Cases"},
+  title:{zh:"提交 3 个公司 AI 用例",en:"Submit 3 Company AI Use Cases"},
+  blocks:[
+    {type:"lead", x:{zh:"这是整个课前准备的核心。请提交 3 个真实的公司用例 —— 课堂上你会把它们真正做出来。",
+                     en:"This is the heart of your pre-work. Submit 3 real company use cases — you'll actually build them in class."}},
+    {type:"table", headers:{zh:["Use Case 用例","Department 部门","Current Problem 当前问题","Current Process 当前流程","Desired AI Output 期望产出"],en:["Use Case","Department","Current Problem","Current Process","Desired AI Output"]},
+      rows:[ {zh:["Sales follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"],
+              en:["Sales Follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"]} ]},
+    {type:"form", title:{zh:"提交我的 3 个用例 Submit my 3 use cases",en:"Submit My 3 Use Cases"},
+      desc:{zh:"每个用例填写：名称、部门、当前问题、当前流程、期望产出。",en:"For each: name, department, current problem, current process, desired output."},
+      fields:[
+        {zh:"Use Case 1 (用例 1)",en:"Use Case 1", eg:{zh:"e.g. Sales follow-up reminder + reply script 销售跟进提醒 + 回复话术",en:"e.g. Sales follow-up reminder + reply script"}},
+        {zh:"Use Case 2 (用例 2)",en:"Use Case 2", eg:{zh:"e.g. Auto-reply to customer FAQ on WhatsApp 客服常见问题自动回复",en:"e.g. Auto-reply to customer FAQ on WhatsApp"}},
+        {zh:"Use Case 3 (用例 3)",en:"Use Case 3", eg:{zh:"e.g. Weekly sales report generated automatically 每周销售报告自动生成",en:"e.g. Weekly sales report generated automatically"}}
+      ]},
+    {type:"tip", x:{zh:"用真实流程，不要用虚构例子。越真实，课堂产出越值钱。",en:"Use real processes, not fake examples. The more real, the more valuable your output."}}
+  ]},
+
+{ id:"tools", icon:"🧰", nav:{zh:"工具准备",en:"Tool Setup"},
+  title:{zh:"准备你的 AI 工具",en:"Set Up Your AI Tools"},
+  blocks:[
+    {type:"tip", x:{zh:"课堂使用的工具可能随最新 AI 发展与公司情况调整。重点不是某个工具，而是学会设计 AI 工作流、AI Agent 与 AI 团队执行。",
+                    en:"Tools may change with the latest AI developments and each company's situation. The focus is designing AI workflows, agents and team execution — not one specific tool."}},
+    {type:"tools",
+      req:["ChatGPT","Gmail / Google 账号","Google Drive","WhatsApp Web","笔记本浏览器 Browser"],
+      rec:["Claude","Gemini","Notion","Airtable / Google Sheet","Canva","Loom / 录屏工具"],
+      opt:["CRM","HR 系统","会计系统","项目管理工具","WhatsApp API / 自动化工具"]},
+    {type:"p", x:{zh:"接下来的 4 个部分会带你逐一安装并登录每个必备工具。请跟着每个部分顶部的演示视频操作。",
+                  en:"The next 4 sections walk you through installing and signing in to each required tool. Follow the demo video at the top of each one."}}
+  ]},
+
+{ id:"t_chatgpt", icon:"🤖", nav:{zh:"安装 ChatGPT",en:"Install ChatGPT"},
+  title:{zh:"安装并登录 ChatGPT",en:"Install & Sign In to ChatGPT"},
+  blocks:[
+    {type:"lead", x:{zh:"【占位】说明 ChatGPT 在课堂中的用途，以及为什么要提前登录好。",
+                     en:"[Placeholder] What ChatGPT is used for in class and why to sign in ahead of time."}},
+    {type:"video", cap:{zh:"安装与登录演示（占位 — 在此嵌入录屏）",en:"Install & sign-in demo (placeholder — embed a screen recording here)"}},
+    {type:"steps", items:[
+      {t:{zh:"打开 ChatGPT：",en:"Open ChatGPT:"}, btn:{label:{zh:"打开 ChatGPT",en:"Open ChatGPT"},url:"https://chat.openai.com"}},
+      {t:{zh:"【占位】点击 “Sign up”，用你的公司 Gmail 注册或登录。",en:"[Placeholder] Click “Sign up” and register/sign in with your company Gmail."}},
+      {t:{zh:"【占位】完成邮箱或手机验证。",en:"[Placeholder] Complete email or phone verification."}, note:{zh:"收不到验证码？改用手机 App 注册，再回电脑登录。",en:"No code? Sign up on the mobile app, then sign in on your computer."}},
+      {t:{zh:"【占位】登录后确认能看到聊天输入框。",en:"[Placeholder] After signing in, confirm you can see the chat box."}}
+    ]},
+    {type:"confirm", x:{zh:"你能登录 ChatGPT 并看到聊天界面吗？",en:"Can you log into ChatGPT and see the chat screen?"}}
+  ]},
+
+{ id:"t_claude", icon:"🧠", nav:{zh:"安装 Claude / Gemini",en:"Install Claude / Gemini"},
+  title:{zh:"登录 Claude（与 Gemini）",en:"Sign In to Claude (and Gemini)"},
+  blocks:[
+    {type:"lead", x:{zh:"【占位】说明 Claude / Gemini 的用途，以及推荐的套餐。",
+                     en:"[Placeholder] What Claude / Gemini are for, and any recommended plan."}},
+    {type:"video", cap:{zh:"登录演示（占位）",en:"Sign-in demo (placeholder)"}},
+    {type:"steps", items:[
+      {t:{zh:"打开 Claude：",en:"Open Claude:"}, btn:{label:{zh:"打开 Claude",en:"Open Claude"},url:"https://claude.ai"}},
+      {t:{zh:"【占位】点击 “Continue with Google”，选择步骤里的 Gmail。",en:"[Placeholder] Click “Continue with Google” and pick your Gmail."}},
+      {t:{zh:"（可选）打开 Gemini，用同一个 Google 账号登录：",en:"(Optional) Open Gemini and sign in with the same Google account:"}, btn:{label:{zh:"打开 Gemini",en:"Open Gemini"},url:"https://gemini.google.com"}},
+      {t:{zh:"【占位】确认两个都能正常登录。",en:"[Placeholder] Confirm both sign in correctly."}}
+    ]},
+    {type:"confirm", x:{zh:"你能登录 Claude（和 Gemini）吗？",en:"Can you sign in to Claude (and Gemini)?"}}
+  ]},
+
+{ id:"t_google", icon:"📧", nav:{zh:"设置 Google 账号",en:"Set Up Google"},
+  title:{zh:"设置 Google / Gmail 账号",en:"Set Up Your Google / Gmail Account"},
+  blocks:[
+    {type:"lead", x:{zh:"【占位】Gmail 与 Google Drive 会用于登录其他工具与存放文件。",
+                     en:"[Placeholder] Gmail and Google Drive are used to sign in to other tools and store files."}},
+    {type:"video", cap:{zh:"账号设置演示（占位）",en:"Account setup demo (placeholder)"}},
+    {type:"steps", items:[
+      {t:{zh:"打开 Google 注册页：",en:"Open Google sign-up:"}, btn:{label:{zh:"创建 Google 账号",en:"Create Google Account"},url:"https://accounts.google.com/signup"}},
+      {t:{zh:"【占位】使用规范的名字（建议 firstname.lastname）。",en:"[Placeholder] Use a clean name (e.g. firstname.lastname)."}},
+      {t:{zh:"【占位】确认能登录 Gmail 与 Google Drive。",en:"[Placeholder] Confirm you can open Gmail and Google Drive."}}
+    ]},
+    {type:"confirm", x:{zh:"你能登录 Gmail 和 Google Drive 吗？",en:"Can you log into Gmail and Google Drive?"}}
+  ]},
+
+{ id:"t_whatsapp", icon:"💬", nav:{zh:"连接 WhatsApp Web",en:"Connect WhatsApp Web"},
+  title:{zh:"连接 WhatsApp Web",en:"Connect WhatsApp Web"},
+  blocks:[
+    {type:"lead", x:{zh:"【占位】WhatsApp Web 会用于在电脑上处理客户对话与自动化演示。",
+                     en:"[Placeholder] WhatsApp Web is used to handle customer chats and automation demos on your computer."}},
+    {type:"video", cap:{zh:"连接演示（占位）",en:"Connection demo (placeholder)"}},
+    {type:"steps", items:[
+      {t:{zh:"在电脑浏览器打开：",en:"Open in your computer browser:"}, btn:{label:{zh:"打开 WhatsApp Web",en:"Open WhatsApp Web"},url:"https://web.whatsapp.com"}},
+      {t:{zh:"【占位】手机 WhatsApp → 已连接的设备 → 连接设备，扫描二维码。",en:"[Placeholder] Phone WhatsApp → Linked devices → Link a device, scan the QR code."}},
+      {t:{zh:"【占位】确认电脑上能看到你的聊天列表。",en:"[Placeholder] Confirm your chat list appears on the computer."}}
+    ]},
+    {type:"confirm", x:{zh:"你的 WhatsApp Web 已成功连接吗？",en:"Is your WhatsApp Web connected?"}}
+  ]},
+
+{ id:"journey", icon:"🗺️", nav:{zh:"四天旅程",en:"4-Day Journey"},
+  title:{zh:"四天课程旅程",en:"The 4-Day Journey"},
+  blocks:[
+    {type:"lead", x:{zh:"4 天 / 40 小时。每一天都有明确的公司产出。",en:"4 days / 40 hours. Each day produces a concrete company output."}},
+    {type:"days", items:[
+      {d:"Day 1", h:{zh:"AI 思维 & 业务用例梳理",en:"AI Mindset & Business Use-Case Mapping"},
+        goal:{zh:"理解 AI 能为公司做什么。",en:"Understand what AI can do for the company."},
+        outs:[{zh:"AI 机会地图",en:"AI opportunity map"},{zh:"部门痛点清单",en:"Department pain-point list"},{zh:"选定第一个 AI 用例",en:"First AI use case selected"}]},
+      {d:"Day 2", h:{zh:"AI 工作流设计",en:"AI Workflow Design"},
+        goal:{zh:"把重复工作变成结构化的 AI 工作流。",en:"Turn repeated work into structured AI workflows."},
+        outs:[{zh:"工作流图",en:"Workflow map"},{zh:"提示词结构",en:"Prompt structure"},{zh:"输入/输出设计",en:"Data input/output design"},{zh:"人工审批点",en:"Human approval point"}]},
+      {d:"Day 3", h:{zh:"AI Agent 搭建",en:"AI Agent Building"},
+        goal:{zh:"按部门设计 AI Agent。",en:"Design department-based AI agents."},
+        outs:[{zh:"AI 销售助手",en:"AI Sales Assistant"},{zh:"AI HR 助手",en:"AI HR Assistant"},{zh:"AI 行销助手",en:"AI Marketing Assistant"},{zh:"AI 客服 / 行政助手",en:"AI CSM / Admin Assistant"}]},
+      {d:"Day 4", h:{zh:"AI Team OS & 落地计划",en:"AI Team OS & Implementation Plan"},
+        goal:{zh:"带回公司并执行。",en:"Bring it back to the company and execute."},
+        outs:[{zh:"AI 团队结构",en:"AI Team structure"},{zh:"30 天落地计划",en:"30-day implementation plan"},{zh:"谁负责哪个工作流",en:"Who owns which workflow"},{zh:"每周复盘什么",en:"What to review weekly"}]}
+    ]},
+    {type:"tip", x:{zh:"AI 不是“随手生成就发布”。好的 AI 工作需要检查点、测试与持续优化。",en:"AI is not 'vibe and ship'. Good AI work needs checkpoints, testing and refinement."}}
+  ]},
+
+{ id:"rules", icon:"🏆", nav:{zh:"如何赢",en:"How to Win"},
+  title:{zh:"如何在这门课中赢",en:"How to Win in This Workshop"},
+  blocks:[
+    {type:"lead", x:{zh:"心态决定产出。请记住这 5 条规则。",en:"Mindset drives output. Remember these 5 rules."}},
+    {type:"rules", items:[
+      {h:{zh:"带上真实的公司问题",en:"Bring real company problems"},d:{zh:"别只用虚构例子。真实的销售、HR、行政、行销、财务、客服流程才能产出最好的结果。",en:"Don't use fake examples. Real sales/HR/admin/marketing/CS workflows produce the best results."}},
+      {h:{zh:"不要想学完每一个 AI 工具",en:"Don't try to learn every AI tool"},d:{zh:"工具会变，工作流思维不变。",en:"Tools change. Workflow thinking stays."}},
+      {h:{zh:"先做小的",en:"Build small first"},d:{zh:"别想一天搭出整个 AI 公司，从一个重复工作流开始。",en:"Don't build a full AI company in a day. Start with one repeated workflow."}},
+      {h:{zh:"人必须审批",en:"Human must approve"},d:{zh:"AI 提议，人来确认。",en:"AI proposes. Humans confirm."}},
+      {h:{zh:"用之前先测试",en:"Test before using"},d:{zh:"AI 产出用于客户或员工前，先测试、复查、改进。",en:"Before using AI output with customers or staff, test it, review it, improve it."}}
+    ]}
+  ]},
+
+{ id:"support", icon:"💬", nav:{zh:"常见问题 / 支持",en:"FAQ / Support"},
+  title:{zh:"常见问题与支持",en:"FAQ & Support"},
+  blocks:[
+    {type:"faq", items:[
+      {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"【占位】可以。课程从思维开始，按部就班带你做。",en:"[Placeholder] Yes. We start from mindset and guide you step by step."}},
+      {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"【占位】请填写日期、时间、地点。",en:"[Placeholder] Fill in dates, time, venue."}},
+      {q:{zh:"需要自带电脑吗？",en:"Do I bring my own laptop?"},a:{zh:"【占位】需要，并请提前装好账号。",en:"[Placeholder] Yes, with accounts set up in advance."}},
+      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"【占位】有 30 天落地跟进。详见“课后落地”。",en:"[Placeholder] Yes — a 30-day follow-up. See 'After Class'."}}
+    ]},
+    {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
+    {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:"#"}
+  ]},
+
+{ id:"after", icon:"🚀", nav:{zh:"课后落地",en:"After Class"},
+  title:{zh:"课后落地执行",en:"After-Class Implementation"},
+  blocks:[
+    {type:"lead", x:{zh:"课程结束才是真正的开始。用 30 天把第一个 AI 工作流跑起来。",en:"Class is just the start. Launch your first AI workflow over the next 30 days."}},
+    {type:"check", items:[
+      {zh:"选定第一个要上线的 AI 工作流",en:"Choose the first AI workflow to launch"},
+      {zh:"7 天跟进",en:"7-day follow-up"},
+      {zh:"14 天跟进",en:"14-day follow-up"},
+      {zh:"30 天复盘",en:"30-day review"},
+      {zh:"整理成案例",en:"Collect as a case study"}
+    ]},
+    {type:"cta", label:{zh:"开始我的 30 天计划（占位）",en:"Start my 30-day plan (placeholder)"}, url:"#"}
+  ]}
+];
+
+const READINESS = [
+  {zh:"个人资料已提交",en:"Profile submitted", sec:"prework"},
+  {zh:"AI 工具已安装",en:"Tools installed", sec:["t_chatgpt","t_claude","t_google","t_whatsapp"]},
+  {zh:"3 个用例已提交",en:"Use cases submitted", sec:"usecases"},
+  {zh:"已加入 WhatsApp 群",en:"Joined WhatsApp group", sec:"support"},
+  {zh:"准备好迎接 Day 1",en:"Ready for Day 1", sec:"__all__"}
+];
+
+const LS="vimigo_portal_v3";
+let state={ unlocked:false, lang:"zh", theme:"light", current:0, done:[], checks:{}, confirms:{} };
+try{ const s=JSON.parse(localStorage.getItem(LS)); if(s) state=Object.assign(state,s); }catch(e){}
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+const $=s=>document.querySelector(s);
+
+function renderGate(){
+  const zh=state.lang==="zh";
+  $("#gTitle").textContent = zh?"客户启动门户":"Customer Onboarding Portal";
+  $("#gSub").innerHTML = zh?"请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。"
+    :"Enter your private class access code.<br>It was sent with your registration confirmation.";
+  $("#gateBtn").textContent = zh?"进入门户":"Enter Portal";
+  $("#gateLang").innerHTML = langPill();
+  $("#gHint").textContent = zh?"如未收到通行码，请向管理员索取。":"Didn't get a code? Ask your admin.";
+}
+$("#gateLang").onclick=()=>{ state.lang=state.lang==="zh"?"en":"zh"; save(); renderGate(); };
+function tryUnlock(){
+  const v=$("#gateCode").value.trim().toUpperCase();
+  if(v===ACCESS_CODE.toUpperCase()){ state.unlocked=true; save(); startApp(); }
+  else { $("#gateErr").textContent = state.lang==="zh"?"通行码不正确，请重试。":"Incorrect code, please try again."; }
+}
+$("#gateBtn").onclick=tryUnlock;
+$("#gateCode").addEventListener("keydown",e=>{ if(e.key==="Enter") tryUnlock(); });
+
+function applyTheme(){ document.documentElement.setAttribute("data-theme",state.theme); $("#themeBtn").textContent=state.theme==="dark"?"☀️":"🌙"; }
+function renderBar(){
+  $("#brandSub").textContent=t().brandSub;
+  $("#langBtn").innerHTML = langPill();
+  const total=SECTIONS.length, d=state.done.length;
+  $("#progText").textContent=`${d}/${total}`;
+  $("#progFill").style.width=(d/total*100)+"%";
+  document.documentElement.lang=state.lang;
+}
+function renderNav(){
+  const nav=$("#navSidebar"); nav.innerHTML="";
+  SECTIONS.forEach((s,i)=>{
+    const done=state.done.includes(i);
+    const el=document.createElement("div");
+    el.className="nav-item"+(i===state.current?" active":"")+(done?" done":"");
+    el.innerHTML=`<span class="nav-num">${done?"✓":(i+1)}</span><span class="nav-lbl">${L(s.nav)}</span>`;
+    el.onclick=()=>{ state.current=i; closeNav(); save(); renderAll(); window.scrollTo({top:0,behavior:"smooth"}); };
+    nav.appendChild(el);
+  });
+}
+function closeNav(){ $("#navSidebar").classList.remove("open"); $("#scrim").classList.remove("open"); }
+$("#hamb").onclick=()=>{ $("#navSidebar").classList.toggle("open"); $("#scrim").classList.toggle("open"); };
+$("#scrim").onclick=closeNav;
+
+function renderBlock(b, si){
+  switch(b.type){
+    case "hero":{
+      let ri="";
+      READINESS.forEach(r=>{
+        let on;
+        if(r.sec==="__all__") on = state.done.length===SECTIONS.length;
+        else if(Array.isArray(r.sec)) on = r.sec.every(id=>state.done.includes(SECTIONS.findIndex(x=>x.id===id)));
+        else on = state.done.includes(SECTIONS.findIndex(x=>x.id===r.sec));
+        ri+=`<div class="ready-item ${on?"on":""}"><span class="ready-box">${on?"✓":""}</span><span>${L(r)}</span></div>`;
+      });
+      return `<div class="hero"><div class="pitch">
+        <div class="eyebrow">VIMIGO for AI Team</div>
+        <h1>${state.lang==="zh"?"打造你公司的 AI Team":"Build Your Company's AI Team"}</h1>
+        <div class="slogan">${state.lang==="zh"?"不是学 AI 工具，而是打造你公司的 AI Team。":"Not just learn AI tools — build your AI Team."}</div>
+        <p class="muted" style="line-height:1.7">${state.lang==="zh"?"在左侧依次完成每一个部分，你的准备进度会自动更新。":"Work through each section in the left nav — your readiness updates automatically."}</p>
+        </div>
+        <div class="readiness"><h4>${state.lang==="zh"?"我的准备进度":"My Readiness"}</h4>${ri}</div></div>`;
+    }
+    case "video": return `<div class="media"><span class="ph">${state.lang==="zh"?"视频 / GIF 占位":"VIDEO / GIF PLACEHOLDER"}</span><div class="play">▶</div><div class="cap">${L(b.cap)}</div></div>`;
+    case "steps":{
+      let li="";
+      b.items.forEach(it=>{
+        li+=`<li>${L(it.t)}`;
+        if(it.btn) li+=`<br><a class="btn-link" href="${it.btn.url}" target="_blank" rel="noopener">${L(it.btn.label)} ↗</a>`;
+        if(it.note) li+=`<span class="note">${L(it.note)}</span>`;
+        li+=`</li>`;
+      });
+      return `<div class="card"><h3 class="sub" style="margin-top:0">${t().whatToDo}</h3><ol class="steps">${li}</ol></div>`;
+    }
+    case "confirm":{
+      const id=SECTIONS[si].id, on=!!(state.confirms&&state.confirms[id]);
+      return `<div class="confirm ${on?"on":""}" data-confirm="${id}"><span class="cb">${on?"✓":""}</span><span>${L(b.x)}</span></div>`;
+    }
+    case "lead": return `<p class="lead">${L(b.x)}</p>`;
+    case "h3":   return `<h3 class="sub">${L(b.x)}</h3>`;
+    case "p":    return `<p class="body">${L(b.x)}</p>`;
+    case "tip":  return `<div class="tip"><span class="i">ⓘ</span><span>${L(b.x)}</span></div>`;
+    case "pillars":{
+      let h=`<div class="grid4">`;
+      b.items.forEach(p=>{ h+=`<div class="pill-card"><span class="n">${p.n}</span><h4>${L(p.h)}</h4><p>${L(p.d)}</p></div>`; });
+      return h+`</div>`;
+    }
+    case "check":{
+      const cs=state.checks[si]||[];
+      let h=`<div class="card">`;
+      b.items.forEach((it,idx)=>{ const on=cs.includes(idx);
+        h+=`<div class="chk ${on?"on":""}" data-chk="${si}" data-idx="${idx}"><span class="b">${on?"✓":""}</span><span>${L(it)}</span></div>`; });
+      return h+`</div>`;
+    }
+    case "days":{
+      let h="";
+      b.items.forEach(d=>{
+        let outs=""; d.outs.forEach(o=>outs+=`<li>${L(o)}</li>`);
+        h+=`<div class="day"><div class="dh"><span class="dn">${d.d}</span><h4>${L(d.h)}</h4></div>
+          <p class="goal">${L(d.goal)}</p>
+          <div class="ol">${state.lang==="zh"?"客户产出":"YOUR OUTPUT"}</div><ul>${outs}</ul></div>`;
+      });
+      return h;
+    }
+    case "rules":{
+      let h=`<div class="card">`;
+      b.items.forEach((r,idx)=>{ h+=`<div class="rule"><div class="rn">${idx+1}</div><div><h4>${L(r.h)}</h4><p>${L(r.d)}</p></div></div>`; });
+      return h+`</div>`;
+    }
+    case "tools":{
+      const col=(tag,cls,arr)=>{ let li=""; arr.forEach(x=>li+=`<li>${x}</li>`);
+        return `<div class="card tool-col"><h4><span class="tag ${cls}">${tag}</span></h4><ul>${li}</ul></div>`; };
+      const lbl=state.lang==="zh"?["必备","推荐","可选（视公司而定）"]:["REQUIRED","RECOMMENDED","OPTIONAL"];
+      return col(lbl[0],"req",b.req)+col(lbl[1],"rec",b.rec)+col(lbl[2],"opt",b.opt);
+    }
+    case "form":{
+      let f="";
+      b.fields.forEach(fl=>{ const ex=fl.eg?L(fl.eg):(state.lang==="zh"?"（占位输入框）":"(placeholder field)");
+        f+=`<div class="field"><label>${L(fl)}</label><div class="inp">${ex}</div></div>`; });
+      return `<div class="formph"><div class="ttl">📋 ${L(b.title)}</div><div class="ds">${L(b.desc)}</div>${f}
+        <a class="form-cta" href="#">${state.lang==="zh"?"提交 Submit":"Submit"} →</a>
+        <div class="note">${state.lang==="zh"?"⚠️ 占位表单 — 上线时在此嵌入 Airtable / Tally 表单链接。":"⚠️ Placeholder — embed an Airtable / Tally form link here when live."}</div></div>`;
+    }
+    case "table":{
+      let th=""; b.headers[state.lang].forEach(x=>th+=`<th>${x}</th>`);
+      let tr=""; b.rows.forEach(r=>{ tr+="<tr>"; r[state.lang].forEach(c=>tr+=`<td>${c}</td>`); tr+="</tr>"; });
+      return `<table class="t"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table>`;
+    }
+    case "faq":{
+      let h=""; b.items.forEach(q=>{ h+=`<details class="acc"><summary>${L(q.q)}</summary><div class="ab">${L(q.a)}</div></details>`; });
+      return h;
+    }
+    case "cta": return `<a class="btn-link" href="${b.url}" target="_blank" rel="noopener">${L(b.label)}</a>`;
+    default: return "";
+  }
+}
+
+function renderContent(){
+  const i=state.current, s=SECTIONS[i];
+  let h=`<div class="eyebrow">${state.lang==="zh"?"部分":"SECTION"} ${i+1} ${t().of} ${SECTIONS.length}</div>`;
+  h+=`<h2 class="title"><span class="ic">${s.icon}</span>${L(s.title)}</h2>`;
+  s.blocks.forEach(b=>{ h+=renderBlock(b,i); });
+  const done=state.done.includes(i);
+  h+=`<button class="cta ${done?"done":""}" id="ctaBtn">${done? t().completed : "✓ "+t().complete}</button>`;
+  h+=`<div class="navrow">
+      <a data-nav="prev" style="${i===0?"visibility:hidden":""}">${t().prev}</a>
+      <a data-nav="next" style="${i===SECTIONS.length-1?"visibility:hidden":""}">${t().next}</a></div>`;
+  $("#content").innerHTML=h;
+  $("#editNote").textContent=t().editNote;
+  bindContent();
+}
+function bindContent(){
+  const i=state.current;
+  document.querySelectorAll("[data-chk]").forEach(c=>c.onclick=()=>{
+    const si=+c.dataset.chk, idx=+c.dataset.idx;
+    const arr=state.checks[si]||(state.checks[si]=[]);
+    const p=arr.indexOf(idx); if(p>=0)arr.splice(p,1); else arr.push(idx);
+    save(); renderContent();
+  });
+  document.querySelectorAll("[data-confirm]").forEach(c=>c.onclick=()=>{
+    state.confirms=state.confirms||{}; const id=c.dataset.confirm;
+    state.confirms[id]=!state.confirms[id]; save(); renderContent();
+  });
+  const cta=$("#ctaBtn");
+  if(cta) cta.onclick=()=>{ if(!state.done.includes(i))state.done.push(i); save();
+    if(i<SECTIONS.length-1)state.current=i+1; renderAll(); window.scrollTo({top:0,behavior:"smooth"}); };
+  document.querySelectorAll("[data-nav]").forEach(a=>a.onclick=()=>{
+    if(a.dataset.nav==="prev"&&i>0)state.current=i-1;
+    if(a.dataset.nav==="next"&&i<SECTIONS.length-1)state.current=i+1;
+    save(); renderAll(); window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
+
+function renderFooter(){ $("#foot").innerHTML=t().footer; }
+$("#themeBtn").onclick=()=>{ state.theme=state.theme==="dark"?"light":"dark"; save(); applyTheme(); };
+$("#langBtn").onclick =()=>{ state.lang=state.lang==="zh"?"en":"zh"; save(); renderAll(); };
+
+function renderAll(){ renderBar(); renderNav(); renderContent(); renderFooter(); }
+function startApp(){ $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden"); applyTheme(); renderAll(); }
+applyTheme();
+if(state.unlocked){ startApp(); } else { renderGate(); }
+</script>
+</body>
+</html>
