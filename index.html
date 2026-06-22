@@ -41,6 +41,8 @@
   .gate-btn:hover{background:var(--brand-ink)}
   .gate-err{color:#dc2626;font-size:13px;margin-top:10px;min-height:18px}
   .gate-hint{font-size:11px;color:var(--muted);margin-top:14px}
+  .g-value{font-weight:700;color:var(--brand-ink);font-size:14.5px;line-height:1.55;margin:2px 0 10px}
+  .g-dates{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0 0 20px}
 
   header.bar{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line)}
   .bar-in{display:flex;align-items:center;gap:14px;padding:11px 18px}
@@ -199,6 +201,8 @@
     <div class="logo">🚀</div>
     <div class="tag" id="gTag">VIMIGO for AI Team</div>
     <h1 id="gTitle">客户启动门户</h1>
+    <div class="g-value" id="gValue"></div>
+    <div class="g-dates" id="gDates"></div>
     <p id="gSub">请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。</p>
     <input class="gate-input" id="gateCode" placeholder="ACCESS CODE" autocomplete="off" />
     <button class="gate-btn" id="gateBtn">进入门户</button>
@@ -239,12 +243,12 @@ const ACCESS_CODE = "vimigoAI2026";
 const WHATSAPP_URL = "https://wa.me/60195516912"; // Cherry (CSM)
 
 const T = {
-  zh:{ brandSub:"for AI Team · 启动门户", complete:"此部分我明白了",
+  zh:{ brandSub:"for AI Team · 启动门户", complete:"完成，继续 →",
     completed:"已完成 ✓", prev:"← 上一部分", next:"下一部分 →", of:"/",
     enter:"进入门户", footer:'VIMIGO for AI Team · 需要协助？<a href="#">WhatsApp 联系管理员</a>',
     editNote:"",
     whatToDo:"操作步骤 What to do", verify:"验证是否成功" },
-  en:{ brandSub:"for AI Team · Portal", complete:"I understand this section",
+  en:{ brandSub:"for AI Team · Portal", complete:"Done, continue →",
     completed:"Completed ✓", prev:"← Previous", next:"Next →", of:"/",
     enter:"Enter Portal", footer:'VIMIGO for AI Team · Need help? <a href="#">Message admin on WhatsApp</a>',
     editNote:"",
@@ -276,10 +280,10 @@ const SECTIONS = [
                   en:"A hands-on program for business owners and their core team. We don't teach you every AI tool — we help your company design AI workflows, build AI agents, and set up a human-plus-AI team structure that actually lands AI in daily operations and lifts execution."}},
     {type:"h3", x:{zh:"你会学到的四大支柱",en:"The 4 Pillars You'll Learn"}},
     {type:"pillars", items:[
-      {n:1,h:{zh:"AI Mindset",en:"AI Mindset"},d:{zh:"理解 AI 如何改变工作方式。",en:"Understand how AI changes the way work happens."}},
-      {n:2,h:{zh:"AI Workflow",en:"AI Workflow"},d:{zh:"把每天的手动工作变成可复用的工作流。",en:"Turn daily manual work into repeatable workflows."}},
-      {n:3,h:{zh:"AI Agent",en:"AI Agent"},d:{zh:"为具体部门打造 AI 助手。",en:"Build AI assistants for specific departments."}},
-      {n:4,h:{zh:"AI Team OS",en:"AI Team OS"},d:{zh:"设计人与 AI 团队如何协同运作。",en:"Design how the human team and AI team work together."}}
+      {n:1,h:{zh:"AI Mindset",en:"AI Mindset"},d:{zh:"理解 AI 如何改变工作方式。<br><b style='color:var(--brand-ink)'>产出：公司 AI 机会地图</b>",en:"Understand how AI changes work.<br><b style='color:var(--brand-ink)'>Output: your AI opportunity map</b>"}},
+      {n:2,h:{zh:"AI Workflow",en:"AI Workflow"},d:{zh:"把每天的手动工作变成可复用的工作流。<br><b style='color:var(--brand-ink)'>产出：一条自动化工作流（如销售跟进提醒）</b>",en:"Turn manual work into repeatable workflows.<br><b style='color:var(--brand-ink)'>Output: one automated workflow (e.g. sales follow-up)</b>"}},
+      {n:3,h:{zh:"AI Agent",en:"AI Agent"},d:{zh:"为具体部门打造 AI 助手。<br><b style='color:var(--brand-ink)'>产出：部门 AI 助手（销售 / 客服 / HR）</b>",en:"Build AI assistants for departments.<br><b style='color:var(--brand-ink)'>Output: a department AI assistant</b>"}},
+      {n:4,h:{zh:"AI Team OS",en:"AI Team OS"},d:{zh:"设计人与 AI 团队如何协同运作。<br><b style='color:var(--brand-ink)'>产出：AI 团队结构 + 30 天落地计划</b>",en:"Design how human + AI teams work together.<br><b style='color:var(--brand-ink)'>Output: AI team structure + 30-day plan</b>"}}
     ]},
     {type:"tip", x:{zh:"真正有效的 AI，靠的是规划、测试、复查与安全思维 —— 不是“随手生成就发布”。课程会一路带你建立这套思维。",
                     en:"Effective AI comes from planning, testing, review and security thinking — not 'generate and ship'. The program builds that mindset with you throughout."}}
@@ -307,7 +311,8 @@ const SECTIONS = [
       {zh:"现有团队角色",en:"Current team roles"},
       {zh:"重复性的手动工作",en:"Repeated manual work"},
       {zh:"SOP / 流程文件",en:"SOP / workflow documents"},
-      {zh:"销售 / 客服 / 行政 / HR 流程",en:"Sales / CS / admin / HR processes"},
+      {zh:"销售 / 客服 / 行政 / HR / 跟进流程",en:"Sales / CS / admin / HR / follow-up processes"},
+      {zh:"产品资料 / Sales script / FAQ / 报价格式",en:"Product info / sales scripts / FAQ / quotation format"},
       {zh:"现有表单、Excel、PDF、话术、WhatsApp 模板",en:"Existing forms, Excel, PDFs, scripts, WhatsApp templates"}
     ]},
     {type:"h3", x:{zh:"AI 用例思考（每人先想清楚）",en:"AI Use-Case Prep (think first)"}},
@@ -425,26 +430,8 @@ const SECTIONS = [
       desc:{zh:"AI Team 不只是 technical。Marketing、Sales、HR、CS 也需要 AI 生成内容、设计素材、准备简报与客户沟通材料。",en:"An AI Team isn't only technical — Marketing, Sales, HR and CS use AI for content, design, decks and customer materials."},
       tools:["Claude Design","seedance2","ChatGPT Image","Claude Artifacts","Google Lab","AI 数字人 / AI Avatar"],
       uses:[{zh:"海报设计",en:"Poster design"},{zh:"课程素材",en:"Course materials"},{zh:"Sales deck",en:"Sales decks"},{zh:"SOP 视觉化",en:"SOP visualization"},{zh:"产品介绍",en:"Product intros"},{zh:"客户教育内容",en:"Customer education content"},{zh:"录屏说明与内部 training",en:"Screen-recordings & internal training"}]},
-    {type:"h3", x:{zh:"💻 电脑准备",en:"💻 Your Computer"}},
-    {type:"check", items:[
-      {zh:"携带 laptop",en:"Bring your laptop"},
-      {zh:"携带 charger",en:"Bring your charger"},
-      {zh:"确保电脑可以安装工具",en:"Make sure you can install software on it"},
-      {zh:"如果公司电脑有限制，请提前让 IT 开通权限",en:"If it's a locked-down company laptop, ask IT to grant install permission in advance"}
-    ]},
-    {type:"h3", x:{zh:"📁 公司资料准备",en:"📁 Company Materials"}},
-    {type:"check", items:[
-      {zh:"公司 SOP",en:"Company SOPs"},
-      {zh:"产品资料",en:"Product info"},
-      {zh:"Sales script",en:"Sales scripts"},
-      {zh:"FAQ",en:"FAQ"},
-      {zh:"Quotation format 报价格式",en:"Quotation format"},
-      {zh:"Purchase / Admin 流程",en:"Purchase / Admin processes"},
-      {zh:"Follow up 流程",en:"Follow-up process"},
-      {zh:"客户服务流程",en:"Customer service process"},
-      {zh:"HR / Admin 流程",en:"HR / Admin processes"},
-      {zh:"任何你想用 AI 改善的重复性工作",en:"Any repetitive work you want AI to improve"}
-    ]},
+    {type:"tip", x:{zh:"📋 电脑与公司资料的准备清单，请见第 3 部分「课前准备清单」—— 那里有完整的「需要带的电脑设备」与「需要准备的公司资料」可勾选清单。",
+                    en:"📋 The laptop + company-materials prep checklist lives in Section 3 \"Pre-Class Checklist\" — it has the full, tickable lists of what to bring and what to prepare."}},
     {type:"tip", x:{zh:"重要说明：课程所使用的工具、平台与案例会根据最新 AI 技术发展持续更新。Vimigo for AI Team 的重点不是学习某一个工具，而是学习如何把 AI 真正落地到企业 —— AI Workflow、AI Agent、AI Knowledge Base、AI Dashboard、AI Automation、AI Team Operating System。工具会变，但企业要学会的是：如何设计、连接、执行和管理 AI Team。",
                     en:"Important: The tools, platforms and examples evolve with the latest AI tech. VIMIGO for AI Team isn't about learning one tool — it's about implementing AI in your business: AI Workflow, AI Agent, AI Knowledge Base, AI Dashboard, AI Automation, AI Team Operating System. Tools change; what your company must learn is how to design, connect, execute and manage an AI Team."}}
   ]},
@@ -475,11 +462,11 @@ const SECTIONS = [
   blocks:[
     {type:"lead", x:{zh:"心态决定产出。请记住这 5 条规则。",en:"Mindset drives output. Remember these 5 rules."}},
     {type:"rules", items:[
-      {h:{zh:"带上真实的公司问题",en:"Bring real company problems"},d:{zh:"别只用虚构例子。真实的销售、HR、行政、行销、财务、客服流程才能产出最好的结果。",en:"Don't use fake examples. Real sales/HR/admin/marketing/CS workflows produce the best results."}},
-      {h:{zh:"不要想学完每一个 AI 工具",en:"Don't try to learn every AI tool"},d:{zh:"工具会变，工作流思维不变。",en:"Tools change. Workflow thinking stays."}},
-      {h:{zh:"先做小的",en:"Build small first"},d:{zh:"别想一天搭出整个 AI 公司，从一个重复工作流开始。",en:"Don't build a full AI company in a day. Start with one repeated workflow."}},
-      {h:{zh:"人必须审批",en:"Human must approve"},d:{zh:"AI 提议，人来确认。",en:"AI proposes. Humans confirm."}},
-      {h:{zh:"用之前先测试",en:"Test before using"},d:{zh:"AI 产出用于客户或员工前，先测试、复查、改进。",en:"Before using AI output with customers or staff, test it, review it, improve it."}}
+      {h:{zh:"带上真实的公司问题",en:"Bring real company problems"},d:{zh:"别只用虚构例子。真实的销售、HR、行政、行销、财务、客服流程才能产出最好的结果。<br>💡 例：带真实销售跟进流程来，产出远胜虚构案例。",en:"Don't use fake examples. Real sales/HR/admin/marketing/CS workflows produce the best results.<br>💡 e.g. Bring your real sales follow-up process — far better than a made-up one."}},
+      {h:{zh:"不要想学完每一个 AI 工具",en:"Don't try to learn every AI tool"},d:{zh:"工具会变，工作流思维不变。<br>💡 例：工具每月都在变；学会工作流，换工具也不慌。",en:"Tools change. Workflow thinking stays.<br>💡 e.g. Tools change monthly; master the workflow and switching is easy."}},
+      {h:{zh:"先做小的",en:"Build small first"},d:{zh:"别想一天搭出整个 AI 公司，从一个重复工作流开始。<br>💡 例：先做「自动跟进提醒」，跑通了再扩展。",en:"Don't build a full AI company in a day. Start with one repeated workflow.<br>💡 e.g. Start with an auto follow-up reminder, then expand once it works."}},
+      {h:{zh:"人必须审批",en:"Human must approve"},d:{zh:"AI 提议，人来确认。<br>💡 例：AI 起草，人确认后才发给客户。",en:"AI proposes. Humans confirm.<br>💡 e.g. AI drafts; a human confirms before it reaches the customer."}},
+      {h:{zh:"用之前先测试",en:"Test before using"},d:{zh:"AI 产出用于客户或员工前，先测试、复查、改进。<br>💡 例：先用 5 个真实案例测试，再正式上线。",en:"Before using AI output with customers or staff, test it, review it, improve it.<br>💡 e.g. Test on 5 real cases before going live."}}
     ]}
   ]},
 
@@ -490,7 +477,11 @@ const SECTIONS = [
       {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"完全可以。课程从 AI 思维开始，不需要任何编程基础，导师会一步步带你做 —— 从第一节课的工具安装，到最后的落地计划。",en:"Absolutely. We start from AI mindset, no coding background needed. The trainer guides you step by step — from installing tools in session 1 to your final implementation plan."}},
       {q:{zh:"需要提前安装 AI 工具吗？",en:"Do I need to install AI tools beforehand?"},a:{zh:"不需要。所有工具会在课程第一节课由导师带着一起安装与设置。",en:"No. All tools are installed and set up together with the trainer in the first class session."}},
       {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"2026 年 7 月 8–11 日（共 4 天），每天 10am–7pm。地点：Avengers Incubator, 吉隆坡 (KL)。",en:"8–11 July 2026 (4 days), 10am–7pm daily. Venue: Avengers Incubator, KL."}},
-      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"有。课程结束后我们会做 30 天落地跟进（第 7 / 14 / 30 天），帮你把第一个 AI 工作流真正上线。详见“课后落地”。",en:"Yes. After class we run a 30-day implementation follow-up (Day 7 / 14 / 30) to help you actually launch your first AI workflow. See 'After Class'."}}
+      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"有。课程结束后我们会做 30 天落地跟进（第 7 / 14 / 30 天），帮你把第一个 AI 工作流真正上线。详见“课后落地”。",en:"Yes. After class we run a 30-day implementation follow-up (Day 7 / 14 / 30) to help you actually launch your first AI workflow. See 'After Class'."}},
+      {q:{zh:"授课语言是什么？",en:"What language is the class in?"},a:{zh:"以中文为主，搭配英文 AI 术语与材料（中英双语）。",en:"Mainly in Chinese, with English AI terms and materials (bilingual)."}},
+      {q:{zh:"可以部分远程参加吗？",en:"Can I attend partly remotely?"},a:{zh:"这是现场实操工作坊，强烈建议全程到场才能跟上每天的产出；特殊情况请提前与 Cherry 沟通。",en:"It's a hands-on, in-person workshop — full attendance is strongly recommended to keep up with each day's output. For special cases, contact Cherry in advance."}},
+      {q:{zh:"公司电脑有 IT / 云端限制怎么办？",en:"My company laptop has IT / cloud restrictions — what do I do?"},a:{zh:"请提前让 IT 开通软件安装与上网权限；课堂上我们也会协助处理常见限制。如不确定，建议自带一台可自由安装的电脑。",en:"Ask IT to grant software-install + internet permissions in advance; we'll also help with common restrictions in class. If unsure, bring a laptop you can install freely on."}},
+      {q:{zh:"WhatsApp 支持是群组还是个人？",en:"Is WhatsApp support a group or 1:1?"},a:{zh:"课前由 Cherry 一对一支持；开班后会把你加入专属学员群。",en:"Before class, 1:1 support from Cherry; after kickoff you'll be added to a dedicated student group."}}
     ]},
     {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
     {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:WHATSAPP_URL}
@@ -512,11 +503,11 @@ const SECTIONS = [
 ];
 
 const READINESS = [
-  {zh:"个人资料已提交",en:"Profile submitted", sec:"prework"},
-  {zh:"已查看课程工具",en:"Reviewed the tools", sec:"tools"},
-  {zh:"3 个用例已提交",en:"Use cases submitted", sec:"usecases"},
-  {zh:"已加入 WhatsApp 群",en:"Joined WhatsApp group", sec:"support"},
-  {zh:"准备好迎接 Day 1",en:"Ready for Day 1", sec:"__all__"}
+  {zh:"个人资料已提交",en:"Profile submitted", sec:"prework", d:{zh:"完成「提交课前作业」表单一",en:"Complete Form 1 in Submit Pre-Work"}},
+  {zh:"已查看课程工具",en:"Reviewed the tools", sec:"tools", d:{zh:"看完「AI Builder Stack」",en:"Read the AI Builder Stack section"}},
+  {zh:"3 个用例已提交",en:"Use cases submitted", sec:"usecases", d:{zh:"在「提交 AI 用例」提交 3 个",en:"Submit 3 in Submit AI Use Cases"}},
+  {zh:"已联系学员支持",en:"Contacted support", sec:"support", d:{zh:"看「常见问题/支持」并加 Cherry",en:"See FAQ/Support & add Cherry"}},
+  {zh:"准备好迎接 Day 1",en:"Ready for Day 1", sec:"__all__", d:{zh:"完成全部 10 个部分",en:"Complete all 10 sections"}}
 ];
 
 const LS="vimigo_portal_v5";
@@ -530,6 +521,8 @@ function renderGate(){
   $("#gTitle").textContent = zh?"客户启动门户":"Customer Onboarding Portal";
   $("#gSub").innerHTML = zh?"请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。"
     :"Enter your private class access code.<br>It was sent with your registration confirmation.";
+  $("#gValue").textContent = zh?"4 天 AI 落地工作坊 —— 不只是教你用工具，而是帮你打造公司的 AI Team。":"A 4-day AI implementation workshop — not a tools class. Build your company's AI Team.";
+  $("#gDates").innerHTML = zh?"📅 2026年7月8–11日　·　🕙 10am–7pm　·　📍 Avengers Incubator, 吉隆坡":"📅 8–11 July 2026　·　🕙 10am–7pm　·　📍 Avengers Incubator, KL";
   $("#gateBtn").textContent = zh?"进入门户":"Enter Portal";
   $("#gateLang").innerHTML = langPill();
   $("#gHint").textContent = zh?"如未收到通行码，请向管理员索取。":"Didn't get a code? Ask your admin.";
@@ -581,7 +574,7 @@ function renderBlock(b, si){
         if(r.sec==="__all__") on = state.done.length===SECTIONS.length;
         else if(Array.isArray(r.sec)) on = r.sec.every(id=>state.done.includes(SECTIONS.findIndex(x=>x.id===id)));
         else on = state.done.includes(SECTIONS.findIndex(x=>x.id===r.sec));
-        ri+=`<div class="ready-item ${on?"on":""}"><span class="ready-box">${on?"✓":""}</span><span>${L(r)}</span></div>`;
+        ri+=`<div class="ready-item ${on?"on":""}"><span class="ready-box">${on?"✓":""}</span><span>${L(r)}${r.d?'<br><small style="color:var(--muted);font-weight:400;font-size:11.5px">'+L(r.d)+'</small>':''}</span></div>`;
       });
       return `<div class="hero"><div class="pitch">
         <div class="eyebrow">VIMIGO for AI Team</div>
@@ -628,6 +621,7 @@ function renderBlock(b, si){
       b.items.forEach(d=>{
         let outs=""; d.outs.forEach(o=>outs+=`<li>${L(o)}</li>`);
         h+=`<div class="day"><div class="dh"><span class="dn">${d.d}</span><h4>${L(d.h)}</h4></div>
+          <div style="font-size:11.5px;color:var(--muted);margin:0 0 6px">🕙 10am–7pm</div>
           <p class="goal">${L(d.goal)}</p>
           <div class="ol">${state.lang==="zh"?"客户产出":"YOUR OUTPUT"}</div><ul>${outs}</ul></div>`;
       });
