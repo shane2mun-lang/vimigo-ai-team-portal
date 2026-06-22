@@ -148,6 +148,7 @@
   .natform textarea{min-height:84px;resize:vertical;line-height:1.5}
   .natform input:focus,.natform select:focus,.natform textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 14%,transparent)}
   .natform .req{color:#dc2626}
+  .natform .fhint{display:block;margin-top:5px;font-size:11.5px;color:var(--muted);line-height:1.55}
   .fmsg{margin-top:12px;padding:11px 13px;border-radius:9px;font-size:14px;line-height:1.5}
   .fmsg.ok{background:var(--ok-bg);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 30%,transparent)}
   .fmsg.err{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
@@ -338,7 +339,9 @@ const SECTIONS = [
         {id:"flduMLSRjMADVrSsi", label:{zh:"部门 Department",en:"Department"}, type:"text"},
         {id:"fldOAmaKyRxhiqZR9", label:{zh:"WhatsApp 号码 WhatsApp",en:"WhatsApp number"}, type:"tel", required:true, eg:{zh:"+60 12 345 6789",en:"+60 12 345 6789"}},
         {id:"fldcfwg4fMgCC6FId", label:{zh:"邮箱 Email",en:"Email"}, type:"email", required:true},
-        {id:"fld5aCfodwo9ToDcJ", label:{zh:"AI 水平 AI Level",en:"AI Level"}, type:"select", options:["Beginner","Intermediate","Advanced"]},
+        {id:"fld5aCfodwo9ToDcJ", label:{zh:"AI 水平 AI Level",en:"AI Level"}, type:"select", options:["Beginner","Intermediate","Advanced"],
+          hint:{zh:"Beginner（初级）= 几乎没用过 AI；Intermediate（中级）= 偶尔用 ChatGPT / Claude 等工具帮忙；Advanced（高级）= 经常用 AI，甚至会接 API、做自动化。",
+                en:"Beginner = barely used AI; Intermediate = occasionally use tools like ChatGPT / Claude; Advanced = use AI often, even APIs & automation."}},
         {id:"fldsc7rrAwqeNVYnB", label:{zh:"你想打造什么？ What do you want to build?",en:"What do you want to build?"}, type:"textarea", eg:{zh:"例如 e.g. 帮我写销售跟进的 AI 助手 / An AI assistant that drafts my sales follow-ups",en:"e.g. An AI assistant that drafts my sales follow-ups"}}
       ]},
     {type:"form", endpoint:"company", title:{zh:"表单二：公司 AI 就绪度",en:"Form 2: Company AI Readiness"},
@@ -361,6 +364,8 @@ const SECTIONS = [
   blocks:[
     {type:"lead", x:{zh:"这是整个课前准备的核心。请提交 3 个真实的公司用例 —— 课堂上你会把它们真正做出来。",
                      en:"This is the heart of your pre-work. Submit 3 real company use cases — you'll actually build them in class."}},
+    {type:"tip", x:{zh:"📌 怎么提交 3 个？下面的表单一次只提交 <b>一个</b> 用例。请按「提交」后，表单会自动清空，再填下一个 —— <b>重复 3 次</b>（把最重要的排第一个）。",
+                    en:"📌 How to submit 3? The form below submits <b>one</b> use case at a time. After you hit Submit it clears automatically — fill in the next one and <b>repeat 3 times</b> (put the most important first)."}},
     {type:"table", headers:{zh:["Use Case 用例","Department 部门","Current Problem 当前问题","Current Process 当前流程","Desired AI Output 期望产出"],en:["Use Case","Department","Current Problem","Current Process","Desired AI Output"]},
       rows:[ {zh:["Sales follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"],
               en:["Sales Follow-up","Sales","Reps forget to follow up","Manual WhatsApp","AI reminder + reply script"]} ]},
@@ -380,8 +385,8 @@ const SECTIONS = [
 { id:"tools", icon:"🧰", nav:{zh:"AI Builder Stack",en:"AI Builder Stack"},
   title:{zh:"课程会用到的 AI Builder Stack",en:"The AI Builder Stack You'll Use"},
   blocks:[
-    {type:"p", x:{zh:"以下是 Vimigo for AI Team 课程中会使用到的核心工具与账号准备。",
-                  en:"Below are the core tools and accounts used throughout the VIMIGO for AI Team program."}},
+    {type:"p", x:{zh:"以下是 Vimigo for AI Team 课程中<b>高机会用到</b>的工具，仅作参考。实际用哪些，<b>看你公司情况而定</b> —— 无需提前全部准备或购买，课堂上我们会一起分析、再决定。",
+                  en:"Below are the tools you'll <b>likely use</b> in the program, for reference only. Which ones you actually use <b>depends on your company</b> — no need to prepare or buy them all in advance; we'll analyze and decide together in class."}},
     {type:"tip", x:{zh:"这不是普通的 AI 工具课。我们不是只教你用 ChatGPT 写文案，而是带你建立公司未来可以使用的 AI Workflow、AI Agent、AI Knowledge Base、AI Automation 与 AI Team Operating System。所以这一次，你要准备的不只是 AI 聊天工具，而是一套真正可以 build、deploy、connect、automate 的 AI Builder Stack。",
                     en:"This is not an ordinary AI tools class. We don't just teach you to write copy with ChatGPT — we help you build the AI Workflow, AI Agent, AI Knowledge Base, AI Automation and AI Team Operating System your company can keep using. So this time you're preparing not just chat tools, but a real AI Builder Stack you can build, deploy, connect and automate."}},
     {type:"stackgroup", n:1, tier:"req",
@@ -442,14 +447,14 @@ const SECTIONS = [
     {type:"lead", x:{zh:"4 天 / 40 小时。每一天都有明确的公司产出。",en:"4 days / 40 hours. Each day produces a concrete company output."}},
     {type:"days", items:[
       {d:"Day 1", h:{zh:"AI 思维 & 业务用例梳理",en:"AI Mindset & Business Use-Case Mapping"},
-        goal:{zh:"理解 AI 能为公司做什么（并一起完成工具安装与设置）。",en:"Understand what AI can do for the company (and set up all tools together)."},
+        goal:{zh:"上午着重 AI 工具安装与设置；下午介绍 AI 工具、AI 思维与企业应用场景。",en:"Morning focuses on AI tools setup; the afternoon introduces the AI tools, AI mindset and business use-cases."},
         outs:[{zh:"AI 机会地图",en:"AI opportunity map"},{zh:"部门痛点清单",en:"Department pain-point list"},{zh:"选定第一个 AI 用例",en:"First AI use case selected"}]},
       {d:"Day 2", h:{zh:"AI 工作流设计",en:"AI Workflow Design"},
         goal:{zh:"把重复工作变成结构化的 AI 工作流。",en:"Turn repeated work into structured AI workflows."},
         outs:[{zh:"工作流图",en:"Workflow map"},{zh:"提示词结构",en:"Prompt structure"},{zh:"输入/输出设计",en:"Data input/output design"},{zh:"人工审批点",en:"Human approval point"}]},
       {d:"Day 3", h:{zh:"AI Agent 搭建",en:"AI Agent Building"},
-        goal:{zh:"按部门设计 AI Agent。",en:"Design department-based AI agents."},
-        outs:[{zh:"AI 销售助手",en:"AI Sales Assistant"},{zh:"AI HR 助手",en:"AI HR Assistant"},{zh:"AI 行销助手",en:"AI Marketing Assistant"},{zh:"AI 客服 / 行政助手",en:"AI CSM / Admin Assistant"}]},
+        goal:{zh:"各按部门设计 AI Agent。",en:"Design AI agents for each department."},
+        outs:[{zh:"AI 销售助手",en:"AI Sales Assistant"},{zh:"AI HR 助手",en:"AI HR Assistant"},{zh:"AI 行销助手",en:"AI Marketing Assistant"},{zh:"AI 客服 / 行政助手",en:"AI CSM / Admin Assistant"},{zh:"AI Finance 助手",en:"AI Finance Assistant"}]},
       {d:"Day 4", h:{zh:"AI Team OS & 落地计划",en:"AI Team OS & Implementation Plan"},
         goal:{zh:"带回公司并执行。",en:"Bring it back to the company and execute."},
         outs:[{zh:"AI 团队结构",en:"AI Team structure"},{zh:"30 天落地计划",en:"30-day implementation plan"},{zh:"谁负责哪个工作流",en:"Who owns which workflow"},{zh:"每周复盘什么",en:"What to review weekly"}]}
@@ -477,7 +482,7 @@ const SECTIONS = [
       {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"完全可以。课程从 AI 思维开始，不需要任何编程基础，导师会一步步带你做 —— 从第一节课的工具安装，到最后的落地计划。",en:"Absolutely. We start from AI mindset, no coding background needed. The trainer guides you step by step — from installing tools in session 1 to your final implementation plan."}},
       {q:{zh:"需要提前安装 AI 工具吗？",en:"Do I need to install AI tools beforehand?"},a:{zh:"不需要。所有工具会在课程第一节课由导师带着一起安装与设置。",en:"No. All tools are installed and set up together with the trainer in the first class session."}},
       {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"2026 年 7 月 8–11 日（共 4 天），每天 10am–7pm。地点：Avengers Incubator, 吉隆坡 (KL)。",en:"8–11 July 2026 (4 days), 10am–7pm daily. Venue: Avengers Incubator, KL."}},
-      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"有。课程结束后我们会做 30 天落地跟进（第 7 / 14 / 30 天），帮你把第一个 AI 工作流真正上线。详见“课后落地”。",en:"Yes. After class we run a 30-day implementation follow-up (Day 7 / 14 / 30) to help you actually launch your first AI workflow. See 'After Class'."}},
+      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"有。课程结束后我们会开始 AI 工具小课堂，专注于个别部门的 AI 小课。曾经上过 vimigo for AI Team 的学员也可以免费回来复训，只需支付 Seat 场地费。",en:"Yes. After the workshop we run ongoing AI-tool mini-classes focused on individual departments. Past VIMIGO for AI Team students can return for free — you only pay a seat/venue fee."}},
       {q:{zh:"授课语言是什么？",en:"What language is the class in?"},a:{zh:"以中文为主，搭配英文 AI 术语与材料（中英双语）。",en:"Mainly in Chinese, with English AI terms and materials (bilingual)."}},
       {q:{zh:"可以部分远程参加吗？",en:"Can I attend partly remotely?"},a:{zh:"这是现场实操工作坊，强烈建议全程到场才能跟上每天的产出；特殊情况请提前与 Cherry 沟通。",en:"It's a hands-on, in-person workshop — full attendance is strongly recommended to keep up with each day's output. For special cases, contact Cherry in advance."}},
       {q:{zh:"公司电脑有 IT / 云端限制怎么办？",en:"My company laptop has IT / cloud restrictions — what do I do?"},a:{zh:"请提前让 IT 开通软件安装与上网权限；课堂上我们也会协助处理常见限制。如不确定，建议自带一台可自由安装的电脑。",en:"Ask IT to grant software-install + internet permissions in advance; we'll also help with common restrictions in class. If unsure, bring a laptop you can install freely on."}},
@@ -485,20 +490,6 @@ const SECTIONS = [
     ]},
     {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
     {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:WHATSAPP_URL}
-  ]},
-
-{ id:"after", icon:"🚀", nav:{zh:"课后落地",en:"After Class"},
-  title:{zh:"课后落地执行",en:"After-Class Implementation"},
-  blocks:[
-    {type:"lead", x:{zh:"课程结束才是真正的开始。用 30 天把第一个 AI 工作流跑起来。",en:"Class is just the start. Launch your first AI workflow over the next 30 days."}},
-    {type:"check", items:[
-      {zh:"选定第一个要上线的 AI 工作流",en:"Choose the first AI workflow to launch"},
-      {zh:"7 天跟进",en:"7-day follow-up"},
-      {zh:"14 天跟进",en:"14-day follow-up"},
-      {zh:"30 天复盘",en:"30-day review"},
-      {zh:"整理成案例",en:"Collect as a case study"}
-    ]},
-    {type:"cta", label:{zh:"需要协助落地？联系 Cherry",en:"Need help executing? Message Cherry"}, url:WHATSAPP_URL}
   ]}
 ];
 
@@ -586,8 +577,8 @@ function renderBlock(b, si){
     }
     case "stackgroup":{
       const tierCls=b.tier, tierLbl = state.lang==="zh"
-        ? (b.tier==="req"?"必备":b.tier==="rec"?"推荐":"视公司情况使用")
-        : (b.tier==="req"?"REQUIRED":b.tier==="rec"?"RECOMMENDED":"AS NEEDED");
+        ? (b.tier==="req"?"高机会用到":b.tier==="rec"?"推荐":"视公司情况使用")
+        : (b.tier==="req"?"LIKELY USED":b.tier==="rec"?"RECOMMENDED":"AS NEEDED");
       let chips=""; b.tools.forEach(x=>chips+=`<span class="chip">${x}</span>`);
       let uses=""; b.uses.forEach(u=>uses+=`<li>${L(u)}</li>`);
       const note=b.note?`<div class="tip" style="margin-top:10px"><span class="i">⚠️</span><span>${L(b.note)}</span></div>`:"";
@@ -638,9 +629,10 @@ function renderBlock(b, si){
         const lab=`${L(fl.label)}${fl.required?' <span class="req">*</span>':''}`;
         const ph=fl.eg?L(fl.eg).replace(/"/g,"&quot;"):"";
         const req=fl.required?"required":"";
-        if(fl.type==="textarea") f+=`<div class="ffield"><label>${lab}</label><textarea name="${fl.id}" ${req} placeholder="${ph}"></textarea></div>`;
-        else if(fl.type==="select"){ let o='<option value=""></option>'; fl.options.forEach(x=>o+=`<option value="${x}">${x}</option>`); f+=`<div class="ffield"><label>${lab}</label><select name="${fl.id}" ${req}>${o}</select></div>`; }
-        else f+=`<div class="ffield"><label>${lab}</label><input type="${fl.type||"text"}" name="${fl.id}" ${req} placeholder="${ph}" ${fl.type==="tel"?'inputmode="tel"':''}></div>`;
+        const hint=fl.hint?`<small class="fhint">${L(fl.hint)}</small>`:"";
+        if(fl.type==="textarea") f+=`<div class="ffield"><label>${lab}</label><textarea name="${fl.id}" ${req} placeholder="${ph}"></textarea>${hint}</div>`;
+        else if(fl.type==="select"){ let o='<option value=""></option>'; fl.options.forEach(x=>o+=`<option value="${x}">${x}</option>`); f+=`<div class="ffield"><label>${lab}</label><select name="${fl.id}" ${req}>${o}</select>${hint}</div>`; }
+        else f+=`<div class="ffield"><label>${lab}</label><input type="${fl.type||"text"}" name="${fl.id}" ${req} placeholder="${ph}" ${fl.type==="tel"?'inputmode="tel"':''}>${hint}</div>`;
       });
       return `<form class="formph natform" data-ep="${b.endpoint}"><div class="ttl">📋 ${L(b.title)}</div><div class="ds">${L(b.desc)}</div>${f}
         <input type="text" name="hp" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
