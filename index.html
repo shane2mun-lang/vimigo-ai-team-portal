@@ -224,18 +224,18 @@
 
 <script>
 const ACCESS_CODE = "vimigoAI2026";
-const WHATSAPP_URL = "https://wa.me/60123456789"; // ← replace with your CSM/admin WhatsApp number or group invite
+const WHATSAPP_URL = "https://wa.me/60195516912"; // Cherry (CSM)
 
 const T = {
   zh:{ brandSub:"for AI Team · 启动门户", complete:"此部分我明白了",
     completed:"已完成 ✓", prev:"← 上一部分", next:"下一部分 →", of:"/",
     enter:"进入门户", footer:'VIMIGO for AI Team · 需要协助？<a href="#">WhatsApp 联系管理员</a>',
-    editNote:"⚠️ 这是 Phase 1 结构占位门户。文字与表单均为占位，请替换为真实内容。表单可后续嵌入 Airtable / Tally 链接。",
+    editNote:"",
     whatToDo:"操作步骤 What to do", verify:"验证是否成功" },
   en:{ brandSub:"for AI Team · Portal", complete:"I understand this section",
     completed:"Completed ✓", prev:"← Previous", next:"Next →", of:"/",
     enter:"Enter Portal", footer:'VIMIGO for AI Team · Need help? <a href="#">Message admin on WhatsApp</a>',
-    editNote:"⚠️ Phase 1 placeholder portal. Copy and forms are placeholders — replace with real content. Form blocks can embed an Airtable / Tally link.",
+    editNote:"",
     whatToDo:"What to do", verify:"Verify it works" }
 };
 const t = () => T[state.lang];
@@ -250,8 +250,8 @@ const SECTIONS = [
     {type:"p", x:{zh:"📅 课程日期：2026 年 7 月 8–11 日（共 4 天）　｜　🕙 时间：每天 10am–7pm　｜　📍 地点：Avengers Incubator, 吉隆坡 (KL)",
                   en:"📅 Dates: 8–11 July 2026 (4 days)　|　🕙 Time: 10am–7pm daily　|　📍 Venue: Avengers Incubator, KL"}},
     {type:"h3", x:{zh:"开班前，请完成这 5 件事",en:"Before class, complete these 5 things"}},
-    {type:"p", x:{zh:"【占位】这个门户会带你完成所有课前准备，让你一进教室就能为公司搭建真正可用的 AI 工作流，而不是从零摸索工具。",
-                  en:"[Placeholder] This portal walks you through all pre-work so that on Day 1 you build real, usable AI workflows for your company — not fumble with tools from scratch."}},
+    {type:"p", x:{zh:"这个门户会带你完成所有课前准备 —— 提交资料、整理公司用例、装好工具。认真完成后，你一进教室就能直接为公司搭建真正能用的 AI 工作流，而不是从零摸索。",
+                  en:"This portal walks you through everything you need before class — submit your details, map your company's use cases, and get your tools ready. Do it properly and on Day 1 you'll build real, usable AI workflows for your company instead of fumbling from scratch."}},
     {type:"tip", x:{zh:"建议预留 20–30 分钟完成全部课前准备。越认真准备，课堂产出越大。AI 工具的安装会在课程第一节课一起完成，无需提前安装。",
                     en:"Set aside 20–30 minutes for pre-work. The more real prep you bring, the more you build in class. Tool installation is done together in class — no need to install in advance."}}
   ]},
@@ -260,8 +260,8 @@ const SECTIONS = [
   title:{zh:"这是什么课程",en:"What This Program Is"},
   blocks:[
     {type:"lead", x:{zh:"不是学 AI 工具，而是打造你公司的 AI Team。",en:"Not just learning AI tools — building your company's AI Team."}},
-    {type:"p", x:{zh:"【占位】这是一门面向企业老板与核心团队的实战课程。目标不是教完每一个 AI 工具，而是帮你的公司学会如何设计 AI 工作流、AI Agent，以及人与 AI 协作的团队结构，真正提升业务执行力。",
-                  en:"[Placeholder] A hands-on program for business owners and key team members. The goal isn't to teach every AI tool, but to help your company design AI workflows, AI agents, and a human + AI team structure that improves real execution."}},
+    {type:"p", x:{zh:"这是一门面向企业老板与核心团队的实战课程。我们不教你用完每一个 AI 工具，而是帮你的公司学会设计 AI 工作流、搭建 AI Agent，并建立人与 AI 协作的团队结构 —— 真正把 AI 落地到日常业务，提升执行力。",
+                  en:"A hands-on program for business owners and their core team. We don't teach you every AI tool — we help your company design AI workflows, build AI agents, and set up a human-plus-AI team structure that actually lands AI in daily operations and lifts execution."}},
     {type:"h3", x:{zh:"你会学到的四大支柱",en:"The 4 Pillars You'll Learn"}},
     {type:"pillars", items:[
       {n:1,h:{zh:"AI Mindset",en:"AI Mindset"},d:{zh:"理解 AI 如何改变工作方式。",en:"Understand how AI changes the way work happens."}},
@@ -269,8 +269,8 @@ const SECTIONS = [
       {n:3,h:{zh:"AI Agent",en:"AI Agent"},d:{zh:"为具体部门打造 AI 助手。",en:"Build AI assistants for specific departments."}},
       {n:4,h:{zh:"AI Team OS",en:"AI Team OS"},d:{zh:"设计人与 AI 团队如何协同运作。",en:"Design how the human team and AI team work together."}}
     ]},
-    {type:"tip", x:{zh:"【占位】好的 AI 实战强调规划、测试、复查与安全思维 —— 不是“快速生成就好”。",
-                    en:"[Placeholder] Good AI work emphasizes planning, testing, review and security thinking — not just 'generate fast'."}}
+    {type:"tip", x:{zh:"真正有效的 AI，靠的是规划、测试、复查与安全思维 —— 不是“随手生成就发布”。课程会一路带你建立这套思维。",
+                    en:"Effective AI comes from planning, testing, review and security thinking — not 'generate and ship'. The program builds that mindset with you throughout."}}
   ]},
 
 { id:"checklist", icon:"✅", nav:{zh:"课前清单",en:"Before-Class Checklist"},
@@ -286,8 +286,8 @@ const SECTIONS = [
       {zh:"公司邮箱访问权限",en:"Company email access"},
       {zh:"带上真实的公司问题",en:"Bring real company problems"}
     ]},
-    {type:"tip", x:{zh:"AI 工具（ChatGPT、Claude、WhatsApp Web 等）的账号与安装会在课程第一节课由导师带着一起完成，无需提前安装，避免设置出错。",
-                    en:"AI tool accounts & setup (ChatGPT, Claude, WhatsApp Web, etc.) are done together in the first class session with the trainer — no need to install in advance, so nothing gets set up wrong."}},
+    {type:"tip", x:{zh:"AI 工具（ChatGPT、Claude、WhatsApp Web 等）的账号与安装会在课程第一节课由导师带着一起完成，无需提前安装，避免设置出错。<br><br>💡 <b>请先不要提前购买任何 AI 工具或软件配套。</b> Shane 老师不建议大家提前采购 —— 现场我们会一起分析每一个 AI 工具，再决定哪一个最适合你的公司才去购买；Shane 老师也会现场帮大家分析每个工具的费用，以及怎样用才最划算、性价比最高。",
+                    en:"AI tool accounts & setup (ChatGPT, Claude, WhatsApp Web, etc.) are done together in the first class session with the trainer — no need to install in advance, so nothing gets set up wrong.<br><br>💡 <b>Please do NOT buy any AI tool or software package in advance.</b> Shane recommends waiting — in class we'll analyze each AI tool together and decide which one truly fits your company before you buy. Shane will also break down each tool's cost and the most cost-effective, best-value way to use it."}},
     {type:"h3", x:{zh:"需要准备的公司资料",en:"Company Information to Prepare"}},
     {type:"check", items:[
       {zh:"公司简介",en:"Company profile"},
@@ -459,10 +459,10 @@ const SECTIONS = [
   title:{zh:"常见问题与支持",en:"FAQ & Support"},
   blocks:[
     {type:"faq", items:[
-      {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"【占位】可以。课程从思维开始，按部就班带你做。",en:"[Placeholder] Yes. We start from mindset and guide you step by step."}},
+      {q:{zh:"我完全不懂 AI，可以来吗？",en:"I'm a total beginner — can I join?"},a:{zh:"完全可以。课程从 AI 思维开始，不需要任何编程基础，导师会一步步带你做 —— 从第一节课的工具安装，到最后的落地计划。",en:"Absolutely. We start from AI mindset, no coding background needed. The trainer guides you step by step — from installing tools in session 1 to your final implementation plan."}},
       {q:{zh:"需要提前安装 AI 工具吗？",en:"Do I need to install AI tools beforehand?"},a:{zh:"不需要。所有工具会在课程第一节课由导师带着一起安装与设置。",en:"No. All tools are installed and set up together with the trainer in the first class session."}},
       {q:{zh:"上课时间与地点？",en:"Class time and venue?"},a:{zh:"2026 年 7 月 8–11 日（共 4 天），每天 10am–7pm。地点：Avengers Incubator, 吉隆坡 (KL)。",en:"8–11 July 2026 (4 days), 10am–7pm daily. Venue: Avengers Incubator, KL."}},
-      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"【占位】有 30 天落地跟进。详见“课后落地”。",en:"[Placeholder] Yes — a 30-day follow-up. See 'After Class'."}}
+      {q:{zh:"课后还有支持吗？",en:"Is there post-class support?"},a:{zh:"有。课程结束后我们会做 30 天落地跟进（第 7 / 14 / 30 天），帮你把第一个 AI 工作流真正上线。详见“课后落地”。",en:"Yes. After class we run a 30-day implementation follow-up (Day 7 / 14 / 30) to help you actually launch your first AI workflow. See 'After Class'."}}
     ]},
     {type:"h3", x:{zh:"联系我们",en:"Contact Us"}},
     {type:"cta", label:{zh:"通过 WhatsApp 联系管理员",en:"Message admin on WhatsApp"}, url:WHATSAPP_URL}
@@ -479,7 +479,7 @@ const SECTIONS = [
       {zh:"30 天复盘",en:"30-day review"},
       {zh:"整理成案例",en:"Collect as a case study"}
     ]},
-    {type:"cta", label:{zh:"开始我的 30 天计划（占位）",en:"Start my 30-day plan (placeholder)"}, url:"#"}
+    {type:"cta", label:{zh:"需要协助落地？联系 Cherry",en:"Need help executing? Message Cherry"}, url:WHATSAPP_URL}
   ]}
 ];
 
@@ -647,7 +647,7 @@ function renderContent(){
       <button class="navbtn" data-nav="prev" style="${i===0?"visibility:hidden":""}">${t().prev}</button>
       <button class="navbtn" data-nav="next" style="${i===SECTIONS.length-1?"visibility:hidden":""}">${t().next}</button></div>`;
   $("#content").innerHTML=h;
-  $("#editNote").textContent=t().editNote;
+  $("#editNote").textContent=t().editNote; $("#editNote").style.display=t().editNote?"":"none";
   bindContent();
 }
 function bindContent(){
