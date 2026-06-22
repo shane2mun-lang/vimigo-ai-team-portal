@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="VIMIGO for AI Team — customer onboarding portal. Complete your pre-work before class: profile, company AI readiness, and your 3 AI use cases." />
 <meta name="robots" content="noindex" />
-<title>VIMIGO for AI Team — 客户启动门户 / Onboarding Portal</title>
+<title>VIMIGO for AI Team — Customer Onboarding</title>
 <style>
   :root{
     --bg:#f5f6fa; --card:#ffffff; --ink:#15131f; --muted:#6b6880; --line:#e7e6ef;
@@ -207,7 +207,7 @@
   <div class="gate-card">
     <div class="logo">🚀</div>
     <div class="tag" id="gTag">VIMIGO for AI Team</div>
-    <h1 id="gTitle">客户启动门户</h1>
+    <h1 id="gTitle">Customer Onboarding</h1>
     <div class="g-value" id="gValue"></div>
     <div class="g-dates" id="gDates"></div>
     <p id="gSub">请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。</p>
@@ -222,7 +222,7 @@
   <header class="bar">
     <div class="bar-in">
       <button class="hamb" id="hamb">☰</button>
-      <div class="brand"><span class="logo">🚀</span><span>VIMIGO<small id="brandSub">for AI Team · 启动门户</small></span></div>
+      <div class="brand"><span class="logo">🚀</span><span>VIMIGO<small id="brandSub">for AI Team · Customer Onboarding</small></span></div>
       <div class="progress-wrap">
         <span class="progress-text" id="progText">0/10</span>
         <div class="progress-bar"><i id="progFill"></i></div>
@@ -250,12 +250,12 @@ const ACCESS_CODE = "vimigoAI2026";
 const WHATSAPP_URL = "https://wa.me/60195516912"; // Cherry (CSM)
 
 const T = {
-  zh:{ brandSub:"for AI Team · 启动门户", complete:"完成，继续 →",
+  zh:{ brandSub:"for AI Team · Customer Onboarding", complete:"完成，继续 →",
     completed:"已完成 ✓", prev:"← 上一部分", next:"下一部分 →", of:"/",
     enter:"进入门户", footer:'VIMIGO for AI Team · 需要协助？<a href="#">WhatsApp 联系管理员</a>',
     editNote:"",
     whatToDo:"操作步骤 What to do", verify:"验证是否成功" },
-  en:{ brandSub:"for AI Team · Portal", complete:"Done, continue →",
+  en:{ brandSub:"for AI Team · Customer Onboarding", complete:"Done, continue →",
     completed:"Completed ✓", prev:"← Previous", next:"Next →", of:"/",
     enter:"Enter Portal", footer:'VIMIGO for AI Team · Need help? <a href="#">Message admin on WhatsApp</a>',
     editNote:"",
@@ -516,7 +516,7 @@ const $=s=>document.querySelector(s);
 
 function renderGate(){
   const zh=state.lang==="zh";
-  $("#gTitle").textContent = zh?"客户启动门户":"Customer Onboarding Portal";
+  $("#gTitle").textContent = zh?"Customer Onboarding":"Customer Onboarding";
   $("#gSub").innerHTML = zh?"请输入你的专属课程通行码进入。<br>通行码已随报名确认一起发送给你。"
     :"Enter your private class access code.<br>It was sent with your registration confirmation.";
   $("#gValue").textContent = zh?"4 天 AI 落地工作坊 —— 不只是教你用工具，而是帮你打造公司的 AI Team。":"A 4-day AI implementation workshop — not a tools class. Build your company's AI Team.";
