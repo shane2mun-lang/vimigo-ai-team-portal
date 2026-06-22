@@ -718,6 +718,9 @@ function bindContent(){
       const btn=form.querySelector(".form-cta"), msg=form.querySelector(".fmsg");
       const fields={}; let hp="";
       form.querySelectorAll("[name]").forEach(el=>{ if(el.name==="hp"){hp=el.value;return;} if(el.value!=="")fields[el.name]=el.value; });
+      // capture WhatsApp join-key from the participant form; attach to company form
+      if(form.dataset.ep==="participant" && fields["fldOAmaKyRxhiqZR9"]){ state.waKey=fields["fldOAmaKyRxhiqZR9"]; save(); }
+      if(form.dataset.ep==="company" && state.waKey){ fields["fldbDRiDdXcuiPxga"]=state.waKey; }
       const orig=btn.textContent; btn.disabled=true; btn.textContent=state.lang==="zh"?"提交中…":"Submitting…"; msg.style.display="none";
       try{
         const r=await fetch("/api/submit/"+form.dataset.ep,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields,hp})});
@@ -744,7 +747,7 @@ function bindContent(){
       for(let c=1;c<=n;c++){
         const fields={};
         form.querySelectorAll('[name^="c'+c+'__"]').forEach(el=>{ const id=el.name.split("__")[1]; if(el.value.trim()!=="")fields[id]=el.value; });
-        if(Object.keys(fields).length>0) cases.push(fields);
+        if(Object.keys(fields).length>0){ if(state.waKey) fields["fldqIcu07Fnw015Tp"]=state.waKey; cases.push(fields); }
       }
       if(cases.length===0){ msg.className="fmsg err"; msg.textContent=zh?"请至少填写「用例 1」再提交。":"Please fill in at least Case 1 before submitting."; msg.style.display=""; return; }
       const orig=btn.textContent; btn.disabled=true; btn.textContent=zh?"提交中…":"Submitting…"; msg.style.display="none";
